@@ -1,0 +1,121 @@
+<!--
+AI Project Governance Framework
+
+Author: Piotr Kwiatkowski
+Contact: peetero@proton.me
+
+License: PROPRIETARY — ALL RIGHTS RESERVED
+This is a legal notice, not an instruction or workflow rule.
+-->
+
+# Feature Plan Rules
+
+## Plan File Location
+
+Plans are stored in: `.ai/plans/features/`
+
+Structure:
+```
+.ai/plans/features/
+├── CATEGORY/           # e.g., ADMIN, FINOPS, DEVOPS
+│   └── FEATURE_001_DESCRIPTION.md
+└── _uncategorized/     # Legacy plans
+```
+
+## Plan File Format
+
+```markdown
+# Feature Plan: FEATURE_001 — Title
+
+**Version**: 1.0.0
+**Status**: DRAFT | APPROVED | IN_PROGRESS | COMPLETED
+**Created**: YYYY-MM-DD
+**Revision**: 1
+
+---
+
+## 🔍 EXISTING SYSTEM ANALYSIS (MANDATORY)
+
+### Similar / Related Features
+(What already exists that relates to this feature)
+
+### Reusable Components
+(Components that can be reused)
+
+### Known Failure Patterns to Avoid
+(Reference relevant FP-XXX patterns)
+
+---
+
+## Executive Summary
+
+(1-2 paragraph overview of the feature)
+
+---
+
+## Scope
+
+### In Scope
+- Item 1
+- Item 2
+
+### Out of Scope
+- Item 1
+- Item 2
+
+---
+
+## Design / Architecture
+
+(Technical design decisions)
+
+---
+
+## Implementation Task Breakdown
+
+| Task | Description | Priority |
+|------|-------------|----------|
+| 1.1 | Task description | 🔴 BLOCKER |
+| 1.2 | Task description | 🟠 HIGH |
+
+---
+
+## Acceptance Criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+---
+
+## Guardrails Compliance Checklist
+
+| Guardrail | Compliant? | Evidence |
+|-----------|------------|----------|
+| No unbounded arrays | ✅ | N/A |
+| Limits have budget comments | ✅ | ... |
+```
+
+## Plan Categories
+
+| Category | Prefix | Description |
+|----------|--------|-------------|
+| Admin | ADMIN_ | Admin panel features |
+| FinOps | FINOPS_ | Financial operations |
+| Jobs | JOB_ | Background jobs |
+| DevOps | DEVOPS_ | Infrastructure |
+| User | USER_ | User-facing features |
+| Perf | PERF_ | Performance |
+| Infra | INFRA_ | Infrastructure |
+
+## Plan Status Flow
+
+```
+DRAFT → APPROVED → IN_PROGRESS → COMPLETED
+```
+
+## Rules
+
+1. **EXISTING SYSTEM ANALYSIS**: MANDATORY first section
+2. **Guardrails**: Reference `docs/AI_PLANNER_GUARDRAILS.md`
+3. **No implementation**: Plans describe WHAT, not HOW
+4. **Version increment**: Bump version on significant changes

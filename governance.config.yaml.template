@@ -1,0 +1,207 @@
+# AI Project Governance Configuration
+# Version: 1.0.0
+#
+# Copy this file to your project root as: governance.config.yaml
+# Replace all {{PLACEHOLDERS}} with your project values
+
+# ============================================================================
+# PROJECT IDENTITY
+# ============================================================================
+
+project:
+  name: "{{PROJECT_NAME}}"                    # Lowercase, kebab-case (e.g., "my-project")
+  display_name: "{{PROJECT_DISPLAY_NAME}}"    # Human-readable (e.g., "My Project")
+  repo: "{{REPO_URL}}"                        # e.g., "github.com/org/repo"
+
+# ============================================================================
+# PATH CONFIGURATION
+# ============================================================================
+
+paths:
+  ai_root: ".ai/"                             # AI governance root
+  docs_root: "docs/"                          # Documentation root
+  docs_final: "docs-FINAL/"                   # Navigation layer
+  jobs: "{{JOBS_PATH}}"                       # Job scripts (e.g., "scripts/JOBS/")
+  cursorrules: ".cursorrules"                 # Rules file location
+  agents: "AGENTS.md"                         # Agent definitions
+
+# ============================================================================
+# CATEGORY CONFIGURATION
+# ============================================================================
+
+categories:
+  # Feature plan categories (used for .ai/plans/features/{CATEGORY}/)
+  features:
+    - ADMIN                                   # Admin features
+    - USER                                    # User-facing features
+    - API                                     # API features
+    - INFRA                                   # Infrastructure features
+    - JOB                                     # Job-related features
+    - PERF                                    # Performance features
+    - DEVOPS                                  # DevOps features
+  
+  # Task types (used in task metadata)
+  tasks:
+    - frontend
+    - backend
+    - database
+    - devops
+    - docs
+    - test
+
+# ============================================================================
+# TECH STACK CONFIGURATION
+# ============================================================================
+
+stack:
+  # Primary language
+  language: "{{LANGUAGE}}"                    # typescript, python, go, java, etc.
+  
+  # Web framework
+  framework: "{{FRAMEWORK}}"                  # express, nextjs, fastapi, gin, etc.
+  
+  # Database
+  database: "{{DATABASE}}"                    # postgresql, mysql, mongodb, etc.
+  
+  # ORM/Query builder
+  orm: "{{ORM}}"                              # drizzle, prisma, sqlalchemy, gorm, etc.
+  
+  # Cloud provider
+  cloud: "{{CLOUD}}"                          # gcp, aws, azure, none
+  
+  # Job system
+  jobs: "{{JOB_SYSTEM}}"                      # cloud-run-jobs, lambda, k8s-jobs, celery, none
+
+# ============================================================================
+# GOVERNANCE RULES
+# ============================================================================
+
+governance:
+  # ADR freeze period (days)
+  frozen_period_days: 14
+  
+  # Maximum tasks per AI turn
+  max_tasks_per_turn: 3
+  
+  # Require changelog for every commit
+  changelog_required: true
+  
+  # Require validation artifacts for task completion
+  validation_required: true
+  
+  # Require ADR for qualifying features
+  adr_required: true
+  
+  # Minimum plan alternatives
+  min_plan_alternatives: 3
+
+# ============================================================================
+# RESOURCE LIMITS
+# ============================================================================
+
+limits:
+  # Memory limits (MB)
+  max_memory_mb: 8192
+  
+  # Batch processing limits
+  max_batch_size: 10000
+  
+  # Query result limits
+  max_query_rows: 100000
+  
+  # Default timeout (ms)
+  default_timeout_ms: 30000
+  
+  # Maximum file size to read (bytes)
+  max_file_size_bytes: 10485760
+
+# ============================================================================
+# DOCUMENTATION GOVERNANCE
+# ============================================================================
+
+documentation:
+  # Directories that should not be modified by CODE_DOCUMENTATOR
+  immutable_zones: []
+  # Example:
+  # immutable_zones:
+  #   - "docs/JOBS/"
+  #   - "docs/INFRASTRUCTURE/"
+  
+  # Job patterns that require DANGEROUS documentation
+  dangerous_operations: []
+  # Example:
+  # dangerous_operations:
+  #   - "cleanup-*"
+  #   - "truncate-*"
+  #   - "delete-*"
+  #   - "drop-*"
+  
+  # File patterns that trigger DOC_GUARD hard block
+  doc_guard_patterns:
+    jobs: "{{JOBS_PATH}}/*.{mts,ts,py}"
+    dangerous: "docs/DANGEROUS_OPERATIONS/**"
+
+# ============================================================================
+# WORKFLOW CONFIGURATION
+# ============================================================================
+
+workflow:
+  # Roles to enable (default: all)
+  enabled_roles:
+    - EMERGENCY_ERROR
+    - PLANNER
+    - IMPLEMENTER
+    - VALIDATOR
+    - UI_INSPECTOR
+    - DATA_SEMANTIC_VALIDATOR
+    - UI_BROWSER_VALIDATOR
+    - FIXATOR
+    - RE_VALIDATOR
+    - ARCHITECT
+    - CODE_DOCUMENTATOR
+    - USER_DOCUMENTATOR
+    - JOB_OBSERVER
+    - DOC_GUARD
+  
+  # Roles requiring special configuration
+  special_roles:
+    job_observer:
+      troubleshooting_rules: "docs/JOBS/_TROUBLESHOOTING_RULES.md"
+      deprecated_jobs: []
+
+# ============================================================================
+# VALIDATION CONFIGURATION
+# ============================================================================
+
+validation:
+  # Failure patterns to check (by ID)
+  required_fp_checks:
+    - FP-001   # Frontend assumes data presence
+    - FP-002   # Non-deterministic mock data
+    - FP-003   # Plan treated as system state
+    - FP-004   # Fix scope expansion
+    - FP-005   # Implicit complexity
+    - FP-006   # Documentation optimism
+    - FP-007   # Missing pagination
+    - FP-008   # Unbounded concurrency
+  
+  # UI-specific failure patterns
+  ui_fp_checks:
+    - FP-036   # Ratio shown as percentage
+    - FP-037   # Missing data shown as zero
+    - FP-038   # Non-persistent ID as stable
+  
+  # Semantic failure patterns
+  semantic_fp_checks:
+    - FP-039   # Inappropriate aggregation
+    - FP-040   # Small sample hidden by precision
+    - FP-041   # Time-window mismatch
+  
+  # Runtime failure patterns
+  runtime_fp_checks:
+    - FP-042   # Dead click
+    - FP-043   # Silent API failure
+    - FP-044   # Infinite loading
+    - FP-045   # Stale data after interaction
+    - FP-046   # Console error
+    - FP-047   # Network retry loop

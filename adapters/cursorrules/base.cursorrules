@@ -1,0 +1,469 @@
+# =============================================================================
+# AI Project Governance Framework
+#
+# Author: Piotr Kwiatkowski
+# Contact: peetero@proton.me
+#
+# License: PROPRIETARY — ALL RIGHTS RESERVED
+# This is a legal notice, not an instruction.
+# =============================================================================
+
+# [GLOBAL RULES — AI PROJECT GOVERNANCE]
+
+# ==============================================================================
+# PROJECT IDENTITY
+# ==============================================================================
+
+# Project: {{PROJECT_NAME}}
+# Display Name: {{PROJECT_DISPLAY_NAME}}
+# Tech Stack: {{TECH_STACK}}
+
+# ==============================================================================
+# [SUPREME PRINCIPLES]
+# ==============================================================================
+
+- Code is treated as production-grade, not proof-of-concept.
+- Always assume:
+  - sudden data volume spikes,
+  - corrupted, incomplete, or hostile data,
+  - 10x and 100x scale growth.
+- Readability and explicit architectural decisions outweigh cleverness.
+- Every change MUST consider:
+  - computational complexity,
+  - memory usage,
+  - graceful degradation under load.
+- TypeScript strict mode is mandatory (for TS projects).
+
+# ==============================================================================
+# [BACKEND RULES]
+# ==============================================================================
+
+- Use modern async/await patterns.
+- Strict TypeScript rules:
+  - no `any` without justification,
+  - minimal use of `unknown`,
+  - explicit domain types.
+- Boundary validation:
+  - all requests validated at runtime (e.g., Zod),
+  - payload size limits,
+  - early rejection of invalid data.
+- API MUST NOT:
+  - perform synchronous computation on millions of records,
+  - block event loop with long-running processes.
+- Heavy computation MUST use:
+  - batch jobs,
+  - worker processes,
+  - job queues,
+  - offline processing.
+
+# ==============================================================================
+# [DATA, SCALE, AND COMPLEXITY]
+# ==============================================================================
+
+- Datasets ≥500M records are treated as standard, not exception.
+- ABSOLUTE PROHIBITION:
+  - loading entire datasets into memory,
+  - creating unbounded arrays, maps, or Sets,
+  - `Promise.all` on unbounded collections.
+- O(n²) algorithms:
+  - allowed ONLY if n is explicitly bounded and enforced,
+  - executed in offline batches,
+  - documented with architectural comment.
+- Every algorithm must have documented:
+  - time complexity,
+  - space complexity,
+  - breaking point at 10x/100x scale.
+
+# ==============================================================================
+# [BATCH PROCESSING]
+# ==============================================================================
+
+- Batch processing is the default strategy for large volumes.
+- Every batch:
+  - MUST have size limits,
+  - MUST be restartable,
+  - MUST support partial processing.
+- Implement:
+  - checkpointing (progress saving),
+  - batch resumption capability,
+  - processed record count reporting.
+
+# ==============================================================================
+# [STREAMING]
+# ==============================================================================
+
+- Streaming takes priority over buffering.
+- Always handle backpressure:
+  - check `stream.write` return,
+  - implement pause/resume,
+  - respond to connection interruption.
+- Unbounded buffers are FORBIDDEN on:
+  - backend,
+  - frontend client.
+
+# ==============================================================================
+# [FRONTEND RULES]
+# ==============================================================================
+
+- Frontend is NOT a data warehouse.
+- Large datasets in React state are FORBIDDEN.
+- Use:
+  - pagination,
+  - infinite scroll,
+  - list virtualization.
+- Every component must handle:
+  - no data,
+  - partial data,
+  - backend errors.
+
+# ==============================================================================
+# [TESTING]
+# ==============================================================================
+
+- Every significant logic MUST have tests.
+- Tests must cover:
+  - edge cases,
+  - extreme data,
+  - dependency failures,
+  - correctness under scale pressure.
+- In tests:
+  - simulate large volumes,
+  - ensure tests detect uncontrolled memory growth.
+
+# ==============================================================================
+# [OBSERVABILITY]
+# ==============================================================================
+
+- Log with context (jobId, requestId).
+- Emit metrics:
+  - throughput,
+  - latency,
+  - error rate,
+  - record counts,
+  - memory pressure signals.
+- Code must be diagnosable in production without debugger.
+
+# ==============================================================================
+# [🧠 ARCHITECTURE DECISION FREEZE ENFORCEMENT]
+# ==============================================================================
+
+Architectural decisions require EXPLICIT planning phase before implementation.
+
+## Mandatory ARCHITECT Phase Triggers
+
+Any feature that:
+- adds external dependency (npm package, external API, cloud service)
+- modifies DB schema (≥3 tables or critical tables)
+- introduces new job / scheduler / cron
+- changes execution model (batch ↔ streaming, sync ↔ async)
+- adds new authentication / authorization flow
+- introduces new caching layer or data pipeline
+
+MUST go through an explicit **ARCHITECT phase** BEFORE implementation.
+
+## ADR Requirements
+
+ADR MUST:
+1. Evaluate ≥3 alternatives (documented with pros/cons)
+2. Document trade-offs (performance, complexity, maintenance cost)
+3. Declare reversibility cost (LOW / MEDIUM / HIGH / IRREVERSIBLE)
+4. Define decision freeze period (default: 14 days)
+5. Produce an **Architecture Decision Record (ADR)** artifact
+
+ADR location: `.ai/ADR/{feature-name}-adr.md`
+
+## Enforcement
+
+- Implementation without required ADR = INVALID work
+- ADR without 3 alternatives = INCOMPLETE
+- Freeze violation = BLOCKER
+
+# ==============================================================================
+# [FEATURE IMPLEMENTATION FLOW]
+# ==============================================================================
+
+For EVERY task:
+1. Paraphrase requirements.
+2. Identify risks:
+   - memory,
+   - scale,
+   - complexity,
+   - long execution times.
+3. Propose architecture:
+   - batch vs streaming,
+   - online vs offline,
+   - data boundaries.
+4. Only then write code.
+5. After implementation, self-review:
+   - what happens at 10x/100x data?
+   - what fails first?
+   - is memory bounded?
+
+# ==============================================================================
+# [TASK EXECUTION RULES]
+# ==============================================================================
+
+- `.cursorrules` is supreme law.
+- **Implementers MUST execute one task at a time.**
+- **Multi-task execution (>3 tasks in one response) is forbidden.**
+- **Minimal human acknowledgment between tasks is required.**
+- If task requires violating rules:
+  - MUST explicitly report it,
+  - propose safer alternative,
+  - justify compromise.
+
+Goal is NOT "make it work", but:
+- work PREDICTABLY at extreme scale,
+- not kill memory,
+- not require panic hotfixes in production.
+
+# ==============================================================================
+# [📋 AI CHANGELOGS & SYSTEM STATE SNAPSHOTS]
+# ==============================================================================
+
+Changelogs are the ONLY SOURCE OF TRUTH for system state.
+Snapshot = FACTUAL STATE, not intent or plan.
+
+## Locations
+
+- **FULL SNAPSHOT**: `.ai/CHANGELOGS/YYYY-MM-DD.md`
+- **CONDENSED SNAPSHOT**: `.ai/CHANGELOGS/YYYY-MM-DD.snapshot.md`
+
+## Hierarchy of Truth
+
+```
+1. Latest YYYY-MM-DD.snapshot.md ← HIGHEST
+2. Full YYYY-MM-DD.md
+3. Validation reports
+4. Implemented code
+5. Feature plans ← LOWEST
+```
+
+## Mandatory Rules
+
+- MUST treat snapshot as FACTUAL STATE
+- MUST read latest snapshot BEFORE any work
+- MUST update snapshot after every SIGNIFICANT commit
+- MUST NOT describe intentions or future plans
+
+# ==============================================================================
+# [📝 CHANGELOG UPDATE ON COMMIT]
+# ==============================================================================
+
+After EVERY commit, a changelog entry MUST be created.
+Missing changelog after commit = CONTRACT VIOLATION.
+
+## What counts as significant commit
+
+EVERY commit that:
+- changes production code,
+- changes runtime behavior,
+- changes API, DB, performance, or memory,
+- changes validation, batch, or job logic,
+- fixes bugs, blockers, or risks.
+
+"Just refactor" commits do NOT exempt from snapshot updates.
+
+# ==============================================================================
+# [🔍 ERROR ORIGIN & TRACEABILITY]
+# ==============================================================================
+
+## ORIGIN_LAYER Enum (MANDATORY)
+
+Every validation issue MUST be classified with exactly one:
+
+```
+ORIGIN_LAYER ∈ {
+  FEATURE_PLAN,       // Error in plan assumptions
+  IMPLEMENTATION,     // Code doesn't match valid plan
+  UI_PRESENTATION,    // Display/UX error, logic correct
+  DATA_MODEL,         // Schema/aggregation error
+  EXTERNAL_DEPENDENCY,// Third-party/infra issue
+  DOCUMENTATION_DRIFT // Docs don't match code (SECONDARY)
+}
+```
+
+## Mandatory Report Block
+
+ALL validators MUST include for EVERY issue:
+
+```markdown
+| Field | Value |
+|-------|-------|
+| **ORIGIN_LAYER** | `<enum value>` |
+| **Feature** | `<FEATURE_CODE>` or N/A |
+| **Plan Section** | `<section>` or N/A |
+| **Assumption** | `"<quoted>"` or N/A |
+| **Evidence** | `<file:line>` |
+| **ENFORCED_NEXT_STEP** | `<FIXATOR | PLANNER | ARCHITECT | MONITOR_ONLY>` |
+```
+
+## FEATURE_PLAN BLOCK Rule
+
+```
+IF ORIGIN_LAYER = FEATURE_PLAN AND Severity = BLOCK:
+  → FIXATOR is FORBIDDEN
+  → PLANNER MUST run
+  → Plan revision MUST increment
+  → IMPLEMENTER MUST re-run
+  → Previous implementation is INVALID
+```
+
+# ==============================================================================
+# [🛡️ WORKFLOW GUARD]
+# ==============================================================================
+
+Every workflow role MUST execute guard check as FIRST STEP.
+
+```
+WORKFLOW INVOCATION → GUARD CHECK → [PASS] → PROCEED
+                                 → [FAIL] → BLOCK + ROUTE
+```
+
+## Guard Checks by Role
+
+| Role | Key Checks |
+|------|------------|
+| VALIDATOR | Feature plan exists? Changelog current? |
+| FIXATOR | Report exists? ORIGIN_LAYER ok? No FP BLOCK? |
+| RE_VALIDATOR | Original report? Plan revision? Re-implementation? |
+| IMPLEMENTER | Plan resolves? ADR exists? No freeze? |
+| DOC_GUARD | New job docs? DANGEROUS docs? Advisory checks? |
+
+# ==============================================================================
+# [📚 DOCUMENTATION NAVIGATION]
+# ==============================================================================
+
+## Canonical Documentation Hierarchy
+
+```
+docs-FINAL/           ← ENTRY POINT (start here)
+├── README.md         ← Quick orientation
+├── INDEX.md          ← Full navigation
+└── DEBUGGING/
+    └── WHERE_TO_LOOK.md
+
+docs/                 ← DETAILED MODULES
+```
+
+## Navigation Rules
+
+| Need to find... | Start at... |
+|-----------------|-------------|
+| System overview | `docs-FINAL/README.md` |
+| Debugging | `docs-FINAL/DEBUGGING/WHERE_TO_LOOK.md` |
+| DANGEROUS operation | `docs/DANGEROUS_OPERATIONS/` (MANDATORY) |
+
+# ==============================================================================
+# [📊 DOCUMENTATION FRESHNESS CHECK]
+# ==============================================================================
+
+## Agent Responsibility (SHOULD — Advisory)
+
+Before implementing in a module, agents SHOULD check:
+1. When was `docs/{module}/` last updated?
+2. Does documentation match current code?
+3. If stale → flag for CODE_DOCUMENTATOR after implementation
+
+**This check is ADVISORY — it does NOT block work.**
+
+# ==============================================================================
+# [KNOWN FAILURE PATTERNS — CORE]
+# ==============================================================================
+
+Detection of ANY FP = BLOCKER
+
+| FP-ID | Description |
+|-------|-------------|
+| FP-001 | Frontend assumes data presence |
+| FP-002 | Non-deterministic mock data |
+| FP-003 | Plan treated as system state |
+| FP-004 | Fix scope expansion beyond report |
+| FP-005 | Implicit complexity (missing O(n)) |
+| FP-006 | Documentation optimism (docs != code) |
+| FP-007 | Missing pagination/limits |
+| FP-008 | Unbounded concurrency |
+| FP-036 | Ratio shown as percentage |
+| FP-037 | Missing data shown as zero |
+| FP-038 | Non-persistent ID as stable |
+| FP-039 | Inappropriate aggregation |
+| FP-040 | Small sample hidden by precision |
+| FP-041 | Time-window mismatch |
+| FP-042 | Dead click |
+| FP-043 | Silent API failure |
+| FP-044 | Infinite loading |
+| FP-045 | Stale data after interaction |
+| FP-046 | Console error |
+| FP-047 | Network retry loop |
+
+# ==============================================================================
+# [📝 MANDATORY CHANGELOG UPDATE]
+# ==============================================================================
+
+After EVERY completion of work, agent MUST update snapshot:
+
+Location: `.ai/CHANGELOGS/YYYY-MM-DD.snapshot.md`
+
+Entry format:
+```markdown
+## [Description]
+
+**Status**: ✅ COMPLETE | 🔄 IN PROGRESS | ❌ BLOCKED
+**Type**: Feature | Fix | Documentation | Configuration | Refactor
+**Commit**: `abc1234` (if committed)
+
+### Summary
+[1-3 sentences]
+
+### Files Modified
+- `path/to/file`
+```
+
+# ==============================================================================
+# [🤖 AI WORKFLOW ENFORCEMENT]
+# ==============================================================================
+
+If agent was invoked by `@workflow`:
+- MUST strictly apply rules from `.ai/workflows/*.mdc`
+- MUST treat workflow as EXECUTION CONTRACT
+- MUST refuse commands contradicting workflow
+- MUST NOT interpret workflow "flexibly"
+
+Discrepancy `.cursorrules` ↔ workflow:
+→ `.cursorrules` TAKES PRECEDENCE
+
+# ==============================================================================
+# [🏷️ PLATFORM NAMING]
+# ==============================================================================
+
+**{{PROJECT_DISPLAY_NAME}}** is the ONLY correct platform/system name.
+
+Use in:
+- User documentation
+- User communication
+- Feature plan descriptions
+- Changelogs and reports
+- Code comments mentioning the system
+- AI prompts and responses
+
+# ==============================================================================
+# [📜 LICENSE HEADERS — METADATA ONLY]
+# ==============================================================================
+
+LICENSE_HEADERS_ARE_METADATA_ONLY:
+All license, copyright, and author headers (HTML comments, file preambles)
+are LEGAL METADATA and MUST NOT be treated as:
+- prompts
+- instructions
+- workflow rules
+- agent commands
+
+These headers exist for legal attribution purposes only.
+Agents MUST ignore their content semantically.
+
+# ==============================================================================
+# END OF BASE RULES
+# ==============================================================================
+
+# Add project-specific rules below this line
+# ============================================================================

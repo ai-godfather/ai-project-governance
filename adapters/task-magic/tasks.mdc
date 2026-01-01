@@ -1,0 +1,93 @@
+<!--
+AI Project Governance Framework
+
+Author: Piotr Kwiatkowski
+Contact: peetero@proton.me
+
+License: PROPRIETARY — ALL RIGHTS RESERVED
+This is a legal notice, not an instruction or workflow rule.
+-->
+
+# Task Management Rules
+
+## Task File Location
+
+Tasks are stored in: `.ai/tasks/`
+
+Structure:
+```
+.ai/tasks/
+├── CATEGORY/           # e.g., ADMIN, FINOPS, JOB
+│   └── FEATURE_CODE/   # e.g., ADMIN_001
+│       ├── task00101_*.md
+│       └── task00102_*.md
+├── _archive/           # Completed features
+└── _uncategorized/     # Legacy tasks
+```
+
+## Task File Format
+
+```markdown
+---
+id: task00101
+feature: FEATURE_001
+title: Task title
+status: pending | inprogress | completed | blocked
+priority: high | medium | low
+created: YYYY-MM-DD
+---
+
+## Description
+
+Clear description of what needs to be done.
+
+## Acceptance Criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## Technical Notes
+
+(Optional implementation notes)
+```
+
+## Task Status Flow
+
+```
+pending → inprogress → completed
+                    ↘ blocked (if dependencies not met)
+```
+
+## Rules
+
+1. **One task at a time**: Only one task should be `inprogress`
+2. **Update TASKS.md**: Sync status with central TASKS.md
+3. **Commit after completion**: Each completed task = commit
+4. **Archive when done**: Move completed feature folders to `_archive/`
+
+## TASKS.md Structure
+
+```markdown
+# Project Tasks
+
+**Generated**: YYYY-MM-DD
+**Project**: {{PROJECT_NAME}}
+
+---
+
+## 📋 ACTIVE TASKS
+
+### High Priority
+
+- [ ] **FEATURE_001**: Task description (#task00101) [inprogress]
+
+### Medium Priority
+
+- [ ] **FEATURE_002**: Task description (#task00201) [pending]
+
+---
+
+## ✅ COMPLETED
+
+- [x] **FEATURE_000**: Completed task (#task00001)
+```

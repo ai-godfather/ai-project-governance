@@ -1,0 +1,155 @@
+# =============================================================================
+# AI Project Governance Framework
+#
+# Author: Piotr Kwiatkowski
+# Contact: peetero@proton.me
+#
+# License: PROPRIETARY — ALL RIGHTS RESERVED
+# This is a legal notice, not an instruction.
+# =============================================================================
+
+# TypeScript + Express Project Rules
+
+# [GLOBAL RULES]
+
+- Code is treated as production-ready, not "proof of concept"
+- Always assume:
+  - sudden volume spikes
+  - corrupted, incomplete, or hostile data
+  - 10x and 100x scale growth
+- Readability and explicit architectural decisions > cleverness
+- Every change MUST consider:
+  - computational complexity
+  - memory usage
+  - degradation behavior under load
+- TypeScript strict mode is MANDATORY
+
+# [BACKEND – NODE.JS + EXPRESS + TYPESCRIPT]
+
+- Use modern async/await patterns
+- Absolute TypeScript rules:
+  - no `any` without justification
+  - minimal use of `unknown`
+  - explicit domain types
+- Validation at system boundary:
+  - all requests validated at runtime (e.g., Zod)
+  - payload size limits
+  - early rejection of invalid data
+- API MUST NOT:
+  - synchronously compute on hundreds of millions of records
+  - run long-running processes blocking the event loop
+- Heavy computations:
+  - batch jobs
+  - worker processes
+  - task queues
+  - offline processes
+- API should:
+  - initiate job
+  - return jobId
+  - allow status check / progress streaming
+
+# [DATA, SCALE, AND COMPUTATIONAL COMPLEXITY]
+
+- Data ≥ 500M records is treated as standard, not exception
+- ABSOLUTE PROHIBITION:
+  - loading full datasets into memory
+  - creating arrays, maps, or Sets without upper limit
+  - `Promise.all` on unbounded collections
+- O(n²) computations:
+  - allowed ONLY if:
+    - n is explicitly bounded and validated
+    - executed in offline batches
+    - precisely described in architectural comment
+  - Otherwise:
+    - use pre-aggregations
+    - data partitioning
+    - map-reduce algorithms
+    - time windows
+    - indexing and bucketing
+
+# [BATCH PROCESSING]
+
+- Batch processing is the default strategy for large volumes
+- Batch:
+  - must have size limit
+  - must be restartable
+  - must support partial processing
+- Implement:
+  - checkpointing
+  - batch resume capability
+  - processed records reporting
+
+# [STREAMING]
+
+- Streaming takes precedence over buffering
+- Always handle backpressure:
+  - check `stream.write`
+  - pause / resume
+  - react to connection interruption
+- Unbounded buffers are FORBIDDEN
+
+# [FRONTEND – REACT + TYPESCRIPT]
+
+- Frontend is NOT a data warehouse
+- Large datasets in React state are FORBIDDEN
+- Use:
+  - pagination
+  - infinite scroll
+  - list virtualization
+- Every component must handle:
+  - no data
+  - partial data
+  - backend error
+
+# [TESTING]
+
+- Every significant logic MUST have tests
+- Tests must cover:
+  - edge cases
+  - extreme data
+  - dependency failures
+  - correctness under scale pressure
+
+# [OBSERVABILITY & STABILITY]
+
+- Log with context (jobId, requestId)
+- Emit metrics:
+  - throughput
+  - latency
+  - error rate
+  - record count
+  - memory pressure signals
+- Code must be diagnosable in production without debugger
+
+# [FEATURE FLOW]
+
+For EVERY task:
+1. Paraphrase requirements
+2. Identify risks:
+   - memory
+   - scale
+   - complexity
+   - long execution times
+3. Propose architecture:
+   - batch vs streaming
+   - online vs offline
+   - data boundaries
+4. Only then write code
+5. After implementation, self-review:
+   - what happens at 10x / 100x data?
+   - what fails first?
+   - is memory bounded?
+
+# [TASK EXECUTION]
+
+- `.cursorrules` is supreme law
+- One task at a time
+- If task requires violating rules:
+  - MUST report explicitly
+  - propose safer alternative
+  - justify compromise
+
+Your goal is not "make it work", but:
+- work PREDICTABLY at extreme scale
+- not kill memory
+- not require panic hotfixes in production

@@ -1,0 +1,42 @@
+AI PROJECT GOVERNANCE FRAMEWORK
+PROPRIETARY LICENSE — ALL RIGHTS RESERVED
+
+Copyright (c) 2026
+Author: Piotr Kwiatkowski
+Contact: peetero@proton.me
+
+This repository and all its contents, including but not limited to:
+- workflow definitions
+- governance rules
+- runtime guards
+- documentation structures
+- prompt templates
+- scripts and automation
+- directory layouts and concepts
+
+are the exclusive intellectual property of the Author.
+
+NO LICENSE IS GRANTED by default.
+
+PROHIBITED WITHOUT PRIOR WRITTEN PERMISSION FROM THE AUTHOR:
+- Any use in production environments
+- Any commercial use
+- Any internal organizational use
+- Copying, redistribution, or sublicensing
+- Modification or creation of derivative works
+- Use as part of another framework, product, or service
+- Training AI models on this repository or its contents
+
+PERMITTED:
+- Viewing the repository for evaluation purposes only
+
+This software is provided "AS IS", without warranty of any kind,
+express or implied, including but not limited to the warranties of
+merchantability, fitness for a particular purpose, and noninfringement.
+
+In no event shall the Author be liable for any claim, damages, or other
+liability, whether in an action of contract, tort, or otherwise, arising
+from, out of, or in connection with this software.
+
+To request permission or obtain a license, contact:
+peetero@proton.me
