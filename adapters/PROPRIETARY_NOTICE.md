@@ -5,7 +5,7 @@ Author & Contact: https://x.com/God_FatherAI
 License: MIT (see LICENSE file in project root)
 -->
 
-# ⚠️ Proprietary Content
+# 📦 Adapter Components
 
 This directory contains **adapter components** of the
 AI Project Governance Framework.
@@ -16,13 +16,12 @@ AI Project Governance Framework.
 - `/agents/` — AGENTS.md templates
 - `/task-magic/` — Task Magic MDC workflows
 
-## Legal Notice
+## License
 
-All files in this directory are the exclusive intellectual property
-of **Piotr Kwiatkowski**.
+All files in this directory are licensed under the **MIT License**.
 
-**Unauthorized use is strictly prohibited.**
+**Free to use, modify, and distribute** with attribution.
 
 ## Contact
 
-For licensing inquiries: **peetero@proton.me**
+For questions or support: **https://x.com/God_FatherAI**

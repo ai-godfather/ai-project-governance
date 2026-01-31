@@ -1,35 +1,26 @@
-AI PROJECT GOVERNANCE FRAMEWORK
-MIT LICENSE
+MIT License
 
 Copyright (c) 2026 God_FatherAI
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+AI Project Governance Framework
 Author & Contact: https://x.com/God_FatherAI
-
-This project is licensed under the MIT License.
-See the LICENSE file in the project root for full license text.
-
-are the exclusive intellectual property of the Author.
-
-NO LICENSE IS GRANTED by default.
-
-PROHIBITED WITHOUT PRIOR WRITTEN PERMISSION FROM THE AUTHOR:
-- Any use in production environments
-- Any commercial use
-- Any internal organizational use
-- Copying, redistribution, or sublicensing
-- Modification or creation of derivative works
-- Use as part of another framework, product, or service
-- Training AI models on this repository or its contents
-
-PERMITTED:
-- Viewing the repository for evaluation purposes only
-
-This software is provided "AS IS", without warranty of any kind,
-express or implied, including but not limited to the warranties of
-merchantability, fitness for a particular purpose, and noninfringement.
-
-In no event shall the Author be liable for any claim, damages, or other
-liability, whether in an action of contract, tort, or otherwise, arising
-from, out of, or in connection with this software.
-
-To request permission or obtain a license, contact:
-peetero@proton.me

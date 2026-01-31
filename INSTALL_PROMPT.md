@@ -106,13 +106,13 @@ moj-projekt/
 └── governance.config.yaml  # Moja konfiguracja
 ```
 
-## OGRANICZENIA LICENCYJNE
+## LICENCJA
 
-⚠️ Framework jest PROPRIETARY (All Rights Reserved).
+✅ Framework jest dostępny na licencji **MIT**.
 
-- Autor: Piotr Kwiatkowski
-- Kontakt: peetero@proton.me
-- Użycie wymaga zgody autora
+- Autor: God_FatherAI
+- Kontakt: https://x.com/God_FatherAI
+- Wolne użycie z atrybutem
 
 ## PO INSTALACJI
 
@@ -141,7 +141,7 @@ Po zakończeniu:
 6. `git add -A && git commit -m "feat: add AI governance" && git push`
 
 Repo: https://github.com/netadsmedia/ai-project-governance.git
-Licencja: PROPRIETARY — kontakt: peetero@proton.me
+Licencja: MIT — kontakt: https://x.com/God_FatherAI
 ```
 
 ---
@@ -155,4 +155,4 @@ Licencja: PROPRIETARY — kontakt: peetero@proton.me
 
 ---
 
-**Copyright (c) 2026 Piotr Kwiatkowski. All rights reserved.**
+**Copyright (c) 2026 God_FatherAI. Licensed under MIT.**

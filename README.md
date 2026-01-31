@@ -115,7 +115,7 @@ This framework provides:
 | **Code is Truth** | Code > Snapshot > Docs > Plans |
 | **No Guessing** | Agents verify with evidence, never assume |
 | **Scope Lock** | Each role has strict, non-negotiable boundaries |
-| **Failure Patterns** | Known failures (89 FPs) inform all decisions |
+| **Failure Patterns** | Known failures (109 FPs) inform all decisions |
 | **Determinism** | Workflows are repeatable and auditable |
 | **Safe Removal** | Framework can be removed cleanly without breaking your code |
 
@@ -142,7 +142,7 @@ If any of the above apply, consider a lighter approach or delay adoption until c
 This framework **DOES**:
 
 - ✅ Enforce a structured development process
-- ✅ Prevent common AI failure modes (89 documented patterns)
+- ✅ Prevent common AI failure modes (109 documented patterns)
 - ✅ Require evidence-based claims (file paths, logs)
 - ✅ Block undocumented dangerous operations
 - ✅ Track compliance and decision history
@@ -310,7 +310,9 @@ How framework repo maps to your project:
 | `core/workflow/*` | → | `.ai/_WORKFLOW/*` |
 | `core/runtime/*` | → | `.ai/runtime/*` |
 | `core/roles/*` | → | `.ai/roles/*` |
+| `core/workflows/*` | → | `.ai/workflows/*` |
 | `adapters/cursorrules/*.cursorrules` | → | `.cursorrules` |
+| `adapters/cursor-rules/*.mdc` | → | `.cursor/rules/` |
 | `adapters/agents/*.AGENTS.md` | → | `AGENTS.md` |
 | `adapters/task-magic/*.mdc` | → | `.cursor/rules/.task-magic/` |
 | `bootstrap/templates/docs/*` | → | `docs/` |
@@ -468,7 +470,7 @@ Even at Minimal level, these rules are **mandatory**:
 
 ### Level 2: Standard
 
-- All 14 roles
+- All 16 roles
 - Full workflow system
 - Documentation governance
 - Task Magic system
@@ -605,8 +607,10 @@ project-specific details.
 | Location | Purpose |
 |----------|---------|
 | `adapters/cursorrules/` | `.cursorrules` templates |
+| `adapters/cursor-rules/` | Cursor enforcement rules (6 MDC files) |
 | `adapters/agents/` | `AGENTS.md` templates |
-| `core/workflow/03_ROLES.md` | All 14 role definitions |
+| `core/workflows/` | Executable workflow specifications |
+| `core/workflow/03_ROLES.md` | All 16 role definitions |
 | `core/workflow/09_ENFORCEMENT.md` | Compliance rules |
 | `core/runtime/workflow-guard.md` | Pre-execution validation |
 | `bootstrap/templates/docs/AI_PLANNER_GUARDRAILS.md` | 31 absolute prohibitions |
