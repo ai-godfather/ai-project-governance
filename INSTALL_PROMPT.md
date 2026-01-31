@@ -5,82 +5,84 @@ Author & Contact: https://x.com/God_FatherAI
 License: MIT (see LICENSE file in project root)
 -->
 
-# 🤖 PROMPT DO WKLEJENIA — Wdrożenie AI Project Governance Framework
+# 🤖 INSTALLATION PROMPT — Deploy AI Project Governance Framework
 
-**Przeznaczenie**: Wklej ten prompt do agenta AI (Claude Opus 4.5, GPT-4, itp.) w Cursor IDE, aby automatycznie wdrożyć framework governance w Twoim projekcie.
+**Purpose**: Paste this prompt into an AI agent (Claude Opus 4.5, GPT-4, etc.) in Cursor IDE to automatically deploy the governance framework to your project.
 
 ---
 
 ## Prompt Start
 
 ```markdown
-# Zadanie: Wdrożenie AI Project Governance Framework
+# Task: Deploy AI Project Governance Framework
 
-## KONTEKST
+## CONTEXT
 
-Masz wdrożyć framework AI governance z repozytorium:
+You need to deploy the AI governance framework from repository:
 https://github.com/netadsmedia/ai-project-governance.git
 
-Framework dostarcza:
-- 14 wyspecjalizowanych ról AI (PLANNER, IMPLEMENTER, VALIDATOR, itd.)
-- Guardy i workflow kontrolujące jakość pracy AI
-- System Task Magic do zarządzania zadaniami
-- Reguły .cursorrules i AGENTS.md
+The framework provides:
+- 16 specialized AI roles (PLANNER, AUDITOR, IMPLEMENTER, VALIDATOR, etc.)
+- Guards and workflows controlling AI work quality
+- Task Magic system for task management
+- .cursorrules and AGENTS.md rules
+- Two-Phase PLANNER with approval gate
+- Quality Gate (AUDITOR) before implementation
 
-## TWOJE ZADANIE
+## YOUR TASK
 
-### Krok 1: Sklonuj framework do katalogu tymczasowego
+### Step 1: Clone the framework to a temporary directory
 
 ```bash
 git clone https://github.com/netadsmedia/ai-project-governance.git /tmp/governance
 ```
 
-### Krok 2: Przeczytaj dokumentację bootstrap
+### Step 2: Read the bootstrap documentation
 
-Przeczytaj plik `/tmp/governance/bootstrap/BOOTSTRAP_FLOW.md` i `/tmp/governance/README.md` 
-żeby zrozumieć co framework instaluje.
+Read `/tmp/governance/bootstrap/BOOTSTRAP_FLOW.md` and `/tmp/governance/README.md` 
+to understand what the framework installs.
 
-### Krok 3: Utwórz plik konfiguracyjny
+### Step 3: Create configuration file
 
-W MOIM PROJEKCIE (nie w /tmp/governance!) utwórz plik `governance.config.yaml`:
+In MY PROJECT (not in /tmp/governance!) create file `governance.config.yaml`:
 
 ```yaml
 # governance.config.yaml
-project_name: "NAZWA_MOJEGO_PROJEKTU"           # np. "my-saas-app"
-project_display_name: "Wyświetlana Nazwa"       # np. "My SaaS Application"
-tech_stack: "TypeScript + React + Node.js"      # dostosuj do swojego stacku
+project_name: "MY_PROJECT_NAME"              # e.g., "my-saas-app"
+project_display_name: "Display Name"         # e.g., "My SaaS Application"
+tech_stack: "TypeScript + React + Node.js"   # adjust to your stack
 ```
 
-### Krok 4: Uruchom instalację
+### Step 4: Run installation
 
-⚠️ WAŻNE: Jeśli mój projekt MA JUŻ `.cursorrules` lub `AGENTS.md`, użyj flagi `--migrate`:
+⚠️ IMPORTANT: If my project ALREADY HAS `.cursorrules` or `AGENTS.md`, use the `--migrate` flag:
 
 ```bash
-# Z katalogu MOJEGO PROJEKTU:
-cd /sciezka/do/mojego/projektu
+# From MY PROJECT directory:
+cd /path/to/my/project
 
-# Opcja A: Nowy projekt (bez istniejących plików governance)
+# Option A: New project (no existing governance files)
 /tmp/governance/bootstrap/scripts/init.sh --config=./governance.config.yaml
 
-# Opcja B: Istniejący projekt (MA .cursorrules lub AGENTS.md)
+# Option B: Existing project (HAS .cursorrules or AGENTS.md)
 /tmp/governance/bootstrap/scripts/init.sh --migrate --config=./governance.config.yaml
 ```
 
-### Krok 5: Zweryfikuj instalację
+### Step 5: Verify installation
 
 ```bash
 /tmp/governance/bootstrap/scripts/validate.sh
 ```
 
-### Krok 6: Jeśli użyłeś --migrate
+### Step 6: If you used --migrate
 
-Sprawdź katalog `.governance-backup-*` i zmerguj moje istniejące reguły:
+Check the `.governance-backup-*` directory and merge your existing rules:
 
-1. Otwórz stary `.cursorrules` z backupu
-2. Dodaj moje customowe sekcje na KOŃCU nowego `.cursorrules`
-3. To samo z `AGENTS.md` jeśli miałem customowe sekcje
+1. Open the old `.cursorrules` from backup
+2. Add your custom sections at the END of the new `.cursorrules`
+3. Same with `AGENTS.md` if you had custom sections
 
-### Krok 7: Commituj
+### Step 7: Commit
 
 ```bash
 git add -A
@@ -88,70 +90,72 @@ git commit -m "feat: add AI Project Governance framework"
 git push
 ```
 
-## CO POWINIENEM ZOBACZYĆ PO INSTALACJI
+## WHAT YOU SHOULD SEE AFTER INSTALLATION
 
 ```
-moj-projekt/
+my-project/
 ├── .ai/
-│   ├── _WORKFLOW/          # System workflow
-│   ├── runtime/            # Guardy runtime
-│   ├── prompts/            # Szablony promptów
-│   ├── CHANGELOGS/         # Changelogi
-│   └── TASKS.md            # Lista zadań
+│   ├── _WORKFLOW/          # Workflow system
+│   ├── runtime/            # Runtime guards
+│   ├── roles/              # Role definitions (16 folders)
+│   ├── workflows/          # Workflow definitions
+│   ├── prompts/            # Prompt templates
+│   ├── CHANGELOGS/         # Changelogs
+│   └── TASKS.md            # Task list
 ├── .cursor/
 │   └── rules/
-│       └── .task-magic/    # Reguły Task Magic
-├── .cursorrules            # Reguły dla Cursor
-├── AGENTS.md               # Instrukcje dla agentów AI
-└── governance.config.yaml  # Moja konfiguracja
+│       └── .task-magic/    # Task Magic rules
+├── .cursorrules            # Rules for Cursor
+├── AGENTS.md               # Instructions for AI agents
+└── governance.config.yaml  # Your configuration
 ```
 
-## LICENCJA
+## LICENSE
 
-✅ Framework jest dostępny na licencji **MIT**.
+✅ The framework is available under the **MIT License**.
 
-- Autor: God_FatherAI
-- Kontakt: https://x.com/God_FatherAI
-- Wolne użycie z atrybutem
+- Author: God_FatherAI
+- Contact: https://x.com/God_FatherAI
+- Free to use with attribution
 
-## PO INSTALACJI
+## AFTER INSTALLATION
 
-Po zakończeniu:
+When finished:
 
-1. Pokaż mi listę zainstalowanych plików
-2. Potwierdź że `validate.sh` przeszło
-3. Pokaż zawartość `.cursorrules` (pierwsze 50 linii)
-4. Powiedz mi jakie komendy `@workflow` są teraz dostępne
+1. Show me the list of installed files
+2. Confirm that `validate.sh` passed
+3. Show contents of `.cursorrules` (first 50 lines)
+4. Tell me which `@workflow` commands are now available
 ```
 
 ## Prompt End
 
 ---
 
-## 📝 Krótka wersja (dla doświadczonego developera)
+## 📝 Short Version (for experienced developers)
 
 ```markdown
-# Wdrożenie AI Governance
+# Deploy AI Governance
 
 1. `git clone https://github.com/netadsmedia/ai-project-governance.git /tmp/governance`
-2. Przeczytaj: `/tmp/governance/README.md`
-3. Utwórz `governance.config.yaml` w SWOIM projekcie
-4. Z katalogu projektu: `/tmp/governance/bootstrap/scripts/init.sh --migrate --config=./governance.config.yaml`
-5. Zmerguj backup jeśli miałeś .cursorrules
+2. Read: `/tmp/governance/README.md`
+3. Create `governance.config.yaml` in YOUR project
+4. From project directory: `/tmp/governance/bootstrap/scripts/init.sh --migrate --config=./governance.config.yaml`
+5. Merge backup if you had .cursorrules
 6. `git add -A && git commit -m "feat: add AI governance" && git push`
 
 Repo: https://github.com/netadsmedia/ai-project-governance.git
-Licencja: MIT — kontakt: https://x.com/God_FatherAI
+License: MIT — contact: https://x.com/God_FatherAI
 ```
 
 ---
 
-## ✅ Checklist przed przekazaniem developerowi
+## ✅ Checklist before handing to developer
 
-- [ ] Developer ma dostęp do repo (jeśli prywatne — dodaj jako collaborator)
-- [ ] Developer wie jaką nazwę projektu wpisać w `governance.config.yaml`
-- [ ] Developer wie jaki tech stack ma projekt
-- [ ] Developer wie czy projekt MA już `.cursorrules` (wtedy `--migrate`)
+- [ ] Developer has access to repo (if private — add as collaborator)
+- [ ] Developer knows which project name to enter in `governance.config.yaml`
+- [ ] Developer knows the project tech stack
+- [ ] Developer knows if project ALREADY HAS `.cursorrules` (then use `--migrate`)
 
 ---
 
