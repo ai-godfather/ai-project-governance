@@ -1,0 +1,109 @@
+# {{PROJECT_NAME}} PROJECT CONTEXT
+
+> **Project**: {{PROJECT_DISPLAY_NAME}}  
+> **Tech Stack**: {{LANGUAGE}} + {{FRAMEWORK}} + {{DATABASE}}  
+> **Platform**: {{CLOUD_PLATFORM}}
+
+---
+
+## 🏗️ MODULE STRUCTURE
+
+```
+{{SOURCE_DIR}}/
+├── {{MODULE_1}}/       → {{MODULE_1_DESCRIPTION}}
+├── {{MODULE_2}}/       → {{MODULE_2_DESCRIPTION}}
+├── {{MODULE_3}}/       → {{MODULE_3_DESCRIPTION}}
+└── {{MODULE_4}}/       → {{MODULE_4_DESCRIPTION}}
+```
+
+---
+
+## 🔐 SECURITY REQUIREMENTS
+
+| Mechanism | Purpose | Check |
+|-----------|---------|-------|
+| {{AUTH_METHOD_1}} | {{AUTH_PURPOSE_1}} | {{AUTH_CHECK_1}} |
+| {{AUTH_METHOD_2}} | {{AUTH_PURPOSE_2}} | {{AUTH_CHECK_2}} |
+
+```
+❌ NEVER disable authentication
+❌ NEVER hardcode secrets
+❌ NEVER log sensitive data (tokens, API keys)
+```
+
+---
+
+## 🛠️ COMMON CLI COMMANDS
+
+```bash
+# Run migrations
+{{MIGRATION_COMMAND}}
+
+# Run tests
+{{TEST_COMMAND}}
+
+# Run linter
+{{LINTER_COMMAND}}
+
+# Start development server
+{{DEV_SERVER_COMMAND}}
+```
+
+---
+
+## 🗄️ DATABASE
+
+| Resource | Type | Notes |
+|----------|------|-------|
+| {{DATABASE}} | {{DATABASE_TYPE}} | {{DATABASE_NOTES}} |
+
+---
+
+## ☁️ CLOUD CONTEXT
+
+| Field | Value |
+|-------|-------|
+| Provider | {{CLOUD_PROVIDER}} |
+| Region | {{CLOUD_REGION}} |
+| Project ID | {{CLOUD_PROJECT_ID}} |
+
+---
+
+## 📝 CODING STANDARDS
+
+```{{LANGUAGE_EXTENSION}}
+// Example of proper code style for this project
+{{CODE_EXAMPLE}}
+```
+
+| Rule | Required |
+|------|----------|
+| {{CODING_RULE_1}} | ✅ |
+| {{CODING_RULE_2}} | ✅ |
+| {{CODING_RULE_3}} | ✅ |
+
+---
+
+## 🚫 FORBIDDEN PATTERNS
+
+```
+❌ {{FORBIDDEN_PATTERN_1}}
+❌ {{FORBIDDEN_PATTERN_2}}
+❌ {{FORBIDDEN_PATTERN_3}}
+❌ {{FORBIDDEN_PATTERN_4}}
+```
+
+---
+
+## 📚 KEY DOCUMENTATION
+
+| Need | File |
+|------|------|
+| Supreme law | `.cursorrules` |
+| Quick reference | `AGENTS.md` |
+| Workflow | `.ai/_WORKFLOW/README.md` |
+| Current state | `.ai/CHANGELOGS/*.snapshot.md` |
+
+---
+
+**Read `.cursorrules` for complete project rules**

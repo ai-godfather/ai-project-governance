@@ -1,0 +1,156 @@
+# PRE-COMMIT CHECKLIST — MANDATORY
+
+> **When**: Before EVERY commit  
+> **Who**: IMPLEMENTER, FIXATOR  
+> **Version**: 2.0.0
+
+---
+
+## 🔴 STEP 1: Code Quality Checks
+
+Run these commands and verify they pass:
+
+```bash
+# Linter (project-specific)
+{{LINTER_COMMAND}}
+# Expected: No errors
+
+# Container/config lint (if applicable)
+{{CONTAINER_LINT_COMMAND}}
+# Expected: OK / Valid
+
+# Template lint (if applicable)
+{{TEMPLATE_LINT_COMMAND}}
+# Expected: OK / No errors
+```
+
+| Check | Pass Criteria | If FAIL |
+|-------|---------------|---------|
+| Linter | 0 errors | Fix all errors before commit |
+| Config | Valid | Fix issues before commit |
+| Templates | 0 errors | Fix template errors before commit |
+
+---
+
+## 🔴 STEP 2: Task Status Verification
+
+Check that all completed work is reflected in indexes:
+
+| File | Check |
+|------|-------|
+| Task file (`task*.md`) | Status = `completed` |
+| TASK_INDEX.md | Task marked with ✅ |
+| Feature index | All tasks updated |
+
+```bash
+# Quick check for task status
+grep -r "status:.*pending" .ai/tasks/CURRENT_FEATURE/
+# Should return nothing if all completed tasks are updated
+```
+
+---
+
+## 🔴 STEP 3: Changelog Entry
+
+Verify changelog exists for today:
+
+```bash
+# Check if today's changelog exists
+ls -la .ai/CHANGELOGS/$(date +%Y-%m-%d).snapshot.md
+```
+
+If missing, create entry:
+
+```markdown
+## [Task/Feature Description]
+
+**Status**: ✅ COMPLETE
+**Type**: Feature | Fix | Refactor
+**Commit**: `pending`
+
+### Summary
+[1-3 sentences describing what was done]
+
+### Files Modified
+- `path/to/file1`
+- `path/to/file2`
+```
+
+---
+
+## 🔴 STEP 4: Commit Message Format
+
+Use Conventional Commits format:
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer]
+```
+
+| Type | When |
+|------|------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation only |
+| `refactor` | Code change without feature/fix |
+| `test` | Adding tests |
+| `chore` | Maintenance |
+
+Examples:
+```bash
+git commit -m "feat(panel): add filtering by status"
+git commit -m "fix(api): correct validation for empty body"
+git commit -m "docs(workflow): update documentation"
+```
+
+---
+
+## ✅ COMMIT CHECKLIST
+
+Before running `git commit`:
+
+- [ ] Linter passes (0 errors)
+- [ ] Config lint passes
+- [ ] Template lint passes (if applicable)
+- [ ] All task files updated to `completed`
+- [ ] TASK_INDEX.md updated
+- [ ] Changelog entry added
+- [ ] Commit message follows Conventional Commits
+
+---
+
+## 🚫 NEVER COMMIT IF:
+
+```
+❌ Linter has errors
+❌ Config lint fails
+❌ TASK_INDEX doesn't reflect completed work
+❌ No changelog entry for today
+❌ Tests are failing (if TDD mode)
+```
+
+---
+
+## 📋 QUICK COMMIT FLOW
+
+```bash
+# 1. Run checks
+{{LINTER_COMMAND}}
+{{CONTAINER_LINT_COMMAND}}
+
+# 2. Stage files
+git add .
+
+# 3. Verify status
+git status
+
+# 4. Commit with conventional message
+git commit -m "feat(module): description"
+```
+
+---
+
+**Skipping this checklist = WORKFLOW BREACH**

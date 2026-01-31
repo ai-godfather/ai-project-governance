@@ -1,0 +1,136 @@
+# ROLE BOUNDARIES — WHO CAN DO WHAT
+
+> **Priority**: HIGH — violating boundaries = WORKFLOW BREACH  
+> **Version**: 2.0.0
+
+---
+
+## 🔐 IMPLEMENTATION AUTHORITY
+
+| Role | Can Write Code? | Can Write Tests? | Can Write Docs? |
+|------|-----------------|------------------|-----------------|
+| PLANNER | ❌ | ❌ | ❌ (plans only) |
+| AUDITOR | ❌ | ❌ | ❌ |
+| TDD_GUIDE | ❌ | ✅ (failing only) | ❌ |
+| **IMPLEMENTER** | ✅ | ✅ | ❌ |
+| VALIDATOR | ❌ | ❌ | ❌ |
+| **FIXATOR** | ✅ (scoped) | ✅ (scoped) | ❌ |
+| RE_VALIDATOR | ❌ | ❌ | ❌ |
+| CODE_DOCUMENTATOR | ❌ | ❌ | ✅ |
+
+---
+
+## 📁 FILE ACCESS BY ROLE
+
+| Role | Can Write To |
+|------|--------------|
+| PLANNER | `.ai/plans/`, `.ai/tasks/`, `.ai/TASKS.md` |
+| AUDITOR | `.ai/_PLANS_VALIDATIONS/` (reports only) |
+| TDD_GUIDE | `{{TEST_DIR}}/` only |
+| IMPLEMENTER | `{{SOURCE_DIR}}/`, config, templates |
+| VALIDATOR | `.ai/_PLANS_VALIDATIONS/` (reports only) |
+| FIXATOR | Same as IMPLEMENTER (scoped to reported issues) |
+| CODE_DOCUMENTATOR | `docs/`, `.ai/` |
+
+---
+
+## 🚫 FORBIDDEN ACTIONS BY ROLE
+
+### PLANNER
+```
+❌ Write implementation code
+❌ Generate tasks without user approval (v2.0)
+❌ Create V2/V3 plan without PREDECESSOR FEATURE ANALYSIS
+❌ Create API plan without response structure
+❌ Create UI plan without metric definitions
+```
+
+### AUDITOR
+```
+❌ Modify plan or tasks
+❌ Write implementation code
+❌ Skip any audit dimension
+❌ Pass audit with >10% coverage gap
+```
+
+### TDD_GUIDE
+```
+❌ Write implementation code (source files)
+❌ Make tests pass (RED phase only)
+❌ Create tests without API schema in plan
+```
+
+### IMPLEMENTER
+```
+❌ Implement without plan
+❌ Implement without AUDITOR pass
+❌ Expand scope beyond plan
+❌ Validate own work
+❌ Skip TDD check
+❌ Delay TASK_INDEX update (FP-068)
+```
+
+### VALIDATOR
+```
+❌ Modify code
+❌ Skip ORIGIN_LAYER classification
+❌ Pass validation with BLOCK conditions
+```
+
+### FIXATOR
+```
+❌ Expand scope beyond reported issues
+❌ Fix FEATURE_PLAN-originated issues
+❌ Change semantic intent
+❌ Introduce new features
+```
+
+---
+
+## 🔄 ROLE TRANSITIONS
+
+| From | To | Trigger |
+|------|-----|---------|
+| PLANNER Phase 1 | PLANNER Phase 2 | User approval |
+| PLANNER | AUDITOR | Plan + tasks complete |
+| AUDITOR | TDD_GUIDE | PASS verdict (optional) |
+| AUDITOR | IMPLEMENTER | PASS verdict |
+| IMPLEMENTER | VALIDATOR | Implementation complete |
+| VALIDATOR | FIXATOR | BLOCK verdict |
+| FIXATOR | RE_VALIDATOR | Fixes complete |
+| RE_VALIDATOR | Done | All PASS |
+
+---
+
+## 🎯 ORIGIN_LAYER ROUTING
+
+When issue detected, route based on origin:
+
+| ORIGIN_LAYER | Route To |
+|--------------|----------|
+| FEATURE_PLAN | PLANNER (FIXATOR forbidden) |
+| IMPLEMENTATION | FIXATOR |
+| UI_PRESENTATION | FIXATOR |
+| DATA_MODEL | ARCHITECT |
+| EXTERNAL_DEPENDENCY | MONITOR only |
+| DOCUMENTATION_DRIFT | CODE_DOCUMENTATOR |
+
+---
+
+## 📋 QUICK REFERENCE: Which Role to Use
+
+| I need to... | Use Role |
+|--------------|----------|
+| Create new feature | `@workflow PLANNER` |
+| Verify task coverage | `@workflow AUDITOR <CODE>` |
+| Create failing tests | `@workflow TDD_GUIDE <TASK>` |
+| Write code | `@workflow IMPLEMENTER <CODE>` |
+| Check implementation | `@workflow VALIDATOR` |
+| Fix BLOCK issues | `@workflow FIXATOR` |
+| Verify fixes | `@workflow RE_VALIDATOR` |
+| Update docs | `@workflow CODE_DOCUMENTATOR` |
+| Handle incident | `@workflow EMERGENCY_ERROR` |
+
+---
+
+**Role boundary violation = WORKFLOW BREACH**

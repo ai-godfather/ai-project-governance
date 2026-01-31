@@ -1,11 +1,8 @@
 <!--
 AI Project Governance Framework
 
-Author: Piotr Kwiatkowski
-Contact: peetero@proton.me
-
-License: PROPRIETARY — ALL RIGHTS RESERVED
-This is a legal notice, not an instruction or workflow rule.
+Author & Contact: https://x.com/God_FatherAI
+License: MIT (see LICENSE file in project root)
 -->
 
 # PLANNER Prompt Template

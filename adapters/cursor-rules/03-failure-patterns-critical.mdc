@@ -1,0 +1,86 @@
+# CRITICAL FAILURE PATTERNS — BLOCKING
+
+> **Priority**: HIGH — these patterns cause BLOCK verdicts  
+> **Version**: 2.0.0  
+> **Full reference**: `.ai/reports/failure-patterns/`
+
+---
+
+## 🔴 DATA SEMANTIC PATTERNS (FP-050 to FP-056)
+
+| FP-ID | Pattern | Detection | Prevention |
+|-------|---------|-----------|------------|
+| **FP-050** | Misleading Metric Label | DATA_SEMANTIC | Add tooltip with exact calculation formula |
+| **FP-051** | Undefined Success Criteria | DATA_SEMANTIC | Explicit list of success statuses |
+| **FP-052** | Sample Size Without Warning | DATA_SEMANTIC | Show ⚠️ when n < 30 |
+| **FP-053** | Data Source Ambiguity | DATA_SEMANTIC | Specify `table.column` in docs |
+| **FP-054** | API Structure Undocumented | TDD_GUIDE | JSON example per endpoint in plan |
+| **FP-055** | Task File Incomplete Generation | AUDITOR | Verify count: planned = generated |
+| **FP-056** | Implementation Status Drift | VALIDATOR | Immediate status update after task |
+
+---
+
+## 🔴 PROCESS PATTERNS (FP-057 to FP-069)
+
+| FP-ID | Pattern | Detection | Prevention |
+|-------|---------|-----------|------------|
+| **FP-057** | Service Interface Not Verified | AUDITOR | SERVICE INTERFACE VERIFICATION section |
+| **FP-058** | Graceful Degradation Missing | DATA_SEMANTIC | GRACEFUL DEGRADATION section |
+| **FP-059** | External API Fallback Missing | DATA_SEMANTIC | EXTERNAL API FALLBACK section |
+| **FP-060** | ASCII Mockup Not Mapped | AUDITOR | ASCII MOCKUP COVERAGE table |
+| **FP-061** | Long Prompt Partial Read | PLANNER | LONG PROMPT VERIFICATION |
+| **FP-062** | Third-Party Library Config | VALIDATOR | Library config in plan |
+| **FP-063** | Missing Runtime Verification | VALIDATOR | E2E test requirement |
+| **FP-064** | Plan References Non-Existent Field | AUDITOR | Verify entity before referencing |
+| **FP-065** | Rate Limit Not Implemented | VALIDATOR | Require implementation task |
+| **FP-066** | Migration Column Unused | AUDITOR | MIGRATION COLUMN USAGE MAP |
+| **FP-067** | Inherited Issue Undocumented | AUDITOR | PREDECESSOR FEATURE ANALYSIS |
+| **FP-068** | TASK_INDEX Status Mismatch | VALIDATOR | Immediate status updates |
+| **FP-069** | Documentation Task Incomplete | VALIDATOR | Block until docs complete |
+
+---
+
+## 🚨 TOP 5 MOST FREQUENT BLOCKERS
+
+Based on common patterns:
+
+| Rank | FP-ID | Pattern | Prevention |
+|------|-------|---------|------------|
+| 1 | FP-068 | TASK_INDEX mismatch | Update IMMEDIATELY after each task |
+| 2 | FP-054 | API schema missing | Add JSON example in plan |
+| 3 | FP-050 | Misleading metric label | Add calculation formula |
+| 4 | FP-055 | Task count mismatch | Verify all tasks generated |
+| 5 | FP-067 | Predecessor undocumented | Add PREDECESSOR FEATURE ANALYSIS |
+
+---
+
+## 📋 DETECTION RESPONSIBILITY
+
+| Role | Detects |
+|------|---------|
+| PLANNER | FP-061, FP-067 (at creation) |
+| AUDITOR | FP-054, FP-055, FP-060, FP-064, FP-066, FP-067 |
+| TDD_GUIDE | FP-054 (blocks test creation) |
+| VALIDATOR | FP-056, FP-062, FP-063, FP-065, FP-068, FP-069 |
+| DATA_SEMANTIC_VALIDATOR | FP-050, FP-051, FP-052, FP-053, FP-058, FP-059 |
+| FIXATOR | Implementation fixes only |
+
+---
+
+## 🔗 FULL REFERENCE
+
+For complete list of failure patterns:
+
+```
+core/workflow/05_FAILURE_PATTERNS.md
+```
+
+Agent MUST consult this file when:
+- Performing validation (VALIDATOR, DATA_SEMANTIC_VALIDATOR)
+- Creating tests (TDD_GUIDE)
+- Auditing plans (AUDITOR)
+- Fixing issues (FIXATOR)
+
+---
+
+**If pattern detected → classify ORIGIN_LAYER → route to correct role**

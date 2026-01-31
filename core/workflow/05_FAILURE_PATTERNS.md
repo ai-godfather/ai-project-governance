@@ -1,11 +1,8 @@
 <!--
-CORE GOVERNANCE COMPONENT — PROPRIETARY
+AI Project Governance Framework
 
-Author: Piotr Kwiatkowski
-Contact: peetero@proton.me
-
-This file is part of a proprietary governance framework.
-NO LICENSE IS GRANTED for use, copying, or modification.
+Author & Contact: https://x.com/God_FatherAI
+License: MIT (see LICENSE file in project root)
 -->
 
 # AI Workflow System - Failure Patterns

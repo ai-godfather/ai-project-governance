@@ -1,0 +1,124 @@
+# WORKFLOW ENFORCEMENT — MANDATORY
+
+> **Priority**: SUPREME — applies to ALL interactions  
+> **Version**: 2.0.0
+
+---
+
+## 🔴 BEFORE ANY IMPLEMENTATION
+
+Agent MUST verify these conditions BEFORE writing code:
+
+| Step | Check | If NO |
+|------|-------|-------|
+| 1 | Feature plan exists in `.ai/plans/features/` | → `@workflow PLANNER` |
+| 2 | AUDITOR passed (check `_PLANS_VALIDATIONS/`) | → `@workflow AUDITOR <CODE>` |
+| 3 | Tests exist for module | → Run existing tests first |
+
+```
+❌ FORBIDDEN: Implement without plan
+❌ FORBIDDEN: Implement without AUDITOR pass
+❌ FORBIDDEN: Skip TDD check
+```
+
+---
+
+## 🔴 TWO-PHASE PLANNER (v2.0)
+
+When creating features, PLANNER MUST:
+
+```
+PHASE 1: Create plan file
+        ↓
+        Output: "Plan ready for review. Approve to generate tasks."
+        ↓
+        🛑 STOP — WAIT FOR USER APPROVAL
+        ↓
+[USER SAYS: "ok", "approve", "proceed", "yes"]
+        ↓
+PHASE 2: Generate task files + update TASK_INDEX
+```
+
+```
+❌ FORBIDDEN: Generate tasks without user approval
+❌ FORBIDDEN: Skip Phase 1 approval gate
+```
+
+---
+
+## 🔴 AFTER EACH TASK COMPLETION
+
+Agent MUST do these IMMEDIATELY after completing each task:
+
+| Step | Action | File |
+|------|--------|------|
+| 1 | Update task status to `completed` | `task*.md` |
+| 2 | Update TASK_INDEX.md | `.ai/TASK_INDEX.md` or feature index |
+| 3 | Add changelog entry | `.ai/CHANGELOGS/{{DATE}}.snapshot.md` |
+
+```
+❌ FORBIDDEN: Proceed to next task without updating TASK_INDEX (FP-068)
+❌ FORBIDDEN: Batch status updates at end of session
+❌ FORBIDDEN: Skip changelog entry
+```
+
+---
+
+## 🔴 BEFORE EVERY COMMIT
+
+Run this checklist BEFORE committing:
+
+```bash
+# 1. Linter
+{{LINTER_COMMAND}}
+
+# 2. Container/config lint (if applicable)
+{{CONTAINER_LINT_COMMAND}}
+
+# 3. Template lint (if applicable)
+{{TEMPLATE_LINT_COMMAND}}
+```
+
+| Check | Expected | If FAIL |
+|-------|----------|---------|
+| Linter | 0 errors | Fix before commit |
+| Config | OK | Fix before commit |
+| TASK_INDEX | All completed marked ✅ | Update index |
+| Changelog | Today's entry exists | Add entry |
+
+```
+❌ FORBIDDEN: Commit with failing checks
+❌ FORBIDDEN: Commit without changelog update
+```
+
+---
+
+## 📋 QUICK REFERENCE: Workflow Commands
+
+| Command | When to Use |
+|---------|-------------|
+| `@workflow PLANNER` | New feature request |
+| `@workflow AUDITOR <CODE>` | Before implementation |
+| `@workflow TDD_GUIDE <TASK>` | Create failing tests (optional) |
+| `@workflow IMPLEMENTER <CODE>` | Execute plan |
+| `@workflow VALIDATOR` | First-pass validation |
+| `@workflow FIXATOR` | Fix BLOCK issues |
+| `@workflow RE_VALIDATOR` | Verify fixes |
+
+---
+
+## 🎯 EXECUTION ORDER
+
+```
+1. PLANNER Phase 1 → [USER APPROVAL] → Phase 2
+2. AUDITOR (Quality Gate)
+3. TDD_GUIDE [optional]
+4. IMPLEMENTER
+5. VALIDATOR → UI_INSPECTOR → DATA_SEMANTIC_VALIDATOR
+6. FIXATOR (if BLOCK)
+7. RE_VALIDATOR
+```
+
+---
+
+**Violation of any rule above = WORKFLOW BREACH**

@@ -1,5 +1,5 @@
 # AI Project Governance Configuration
-# Version: 1.0.0
+# Version: 2.0.0
 #
 # Copy this file to your project root as: governance.config.yaml
 # Replace all {{PLACEHOLDERS}} with your project values
@@ -24,6 +24,11 @@ paths:
   jobs: "{{JOBS_PATH}}"                       # Job scripts (e.g., "scripts/JOBS/")
   cursorrules: ".cursorrules"                 # Rules file location
   agents: "AGENTS.md"                         # Agent definitions
+  # v2.0 additions
+  cursor_rules: ".cursor/rules/"              # Cursor rules directory
+  e2e_tests: "{{E2E_DIR}}"                    # E2E tests directory (e.g., "e2e-tests/")
+  source: "{{SOURCE_DIR}}"                    # Source code directory (e.g., "src/")
+  tests: "{{TEST_DIR}}"                       # Unit tests directory (e.g., "tests/")
 
 # ============================================================================
 # CATEGORY CONFIGURATION
@@ -55,16 +60,16 @@ categories:
 
 stack:
   # Primary language
-  language: "{{LANGUAGE}}"                    # typescript, python, go, java, etc.
+  language: "{{LANGUAGE}}"                    # typescript, python, go, java, php, etc.
   
   # Web framework
-  framework: "{{FRAMEWORK}}"                  # express, nextjs, fastapi, gin, etc.
+  framework: "{{FRAMEWORK}}"                  # express, nextjs, fastapi, gin, symfony, etc.
   
   # Database
   database: "{{DATABASE}}"                    # postgresql, mysql, mongodb, etc.
   
   # ORM/Query builder
-  orm: "{{ORM}}"                              # drizzle, prisma, sqlalchemy, gorm, etc.
+  orm: "{{ORM}}"                              # drizzle, prisma, sqlalchemy, gorm, doctrine, etc.
   
   # Cloud provider
   cloud: "{{CLOUD}}"                          # gcp, aws, azure, none
@@ -73,7 +78,7 @@ stack:
   jobs: "{{JOB_SYSTEM}}"                      # cloud-run-jobs, lambda, k8s-jobs, celery, none
 
 # ============================================================================
-# GOVERNANCE RULES
+# GOVERNANCE RULES — v2.0 Enhanced
 # ============================================================================
 
 governance:
@@ -94,6 +99,181 @@ governance:
   
   # Minimum plan alternatives
   min_plan_alternatives: 3
+
+  # =====================================================
+  # v2.0 PLANNER ENHANCEMENTS
+  # =====================================================
+  planner:
+    # Enable Two-Phase workflow (plan → approval → tasks)
+    two_phase: true
+    
+    # Require explicit user approval before task generation
+    approval_gate: true
+    
+    # Number of prohibitions enforced
+    prohibitions_count: 35
+    
+    # Mandatory sections for UI features
+    ui_sections:
+      - METRIC_SEMANTIC_DEFINITIONS
+      - ASCII_MOCKUP_COVERAGE
+    
+    # Mandatory sections for API features
+    api_sections:
+      - API_RESPONSE_STRUCTURE
+    
+    # Mandatory sections for V2/V3/DEFAULTS plans
+    version_sections:
+      - PREDECESSOR_FEATURE_ANALYSIS
+    
+    # Mandatory for plans with migrations
+    migration_sections:
+      - MIGRATION_COLUMN_USAGE_MAP
+
+  # =====================================================
+  # v2.0 AUDITOR CONFIGURATION
+  # =====================================================
+  auditor:
+    # Enable AUDITOR quality gate
+    enabled: true
+    
+    # Number of audit dimensions
+    audit_dimensions: 15
+    
+    # Blocking checks (fail if missing)
+    blocking_checks:
+      - api_schema              # FP-054
+      - metric_definitions      # FP-050/051
+      - task_count              # FP-055
+      - entity_fields           # FP-064
+      - ascii_mockup_coverage   # FP-060
+      - service_interface       # FP-057
+      - graceful_degradation    # FP-058
+    
+    # Warning checks (warn but don't fail)
+    warning_checks:
+      - predecessor_analysis    # FP-067
+      - rate_limiting           # FP-065
+      - column_usage            # FP-066
+
+  # =====================================================
+  # v2.0 TDD CONFIGURATION
+  # =====================================================
+  tdd:
+    # Enable TDD_GUIDE role (optional by default)
+    enabled: false
+    
+    # Test framework (project-specific)
+    framework: "{{TEST_FRAMEWORK}}"           # phpunit, jest, pytest, go test, etc.
+    
+    # Test command
+    command: "{{TEST_COMMAND}}"               # e.g., "npm test", "pytest", etc.
+    
+    # Scope (directories TDD_GUIDE can write to)
+    scope:
+      - "{{TEST_DIR}}/**/*"
+    
+    # Blocking conditions for TDD_GUIDE
+    blocking_conditions:
+      - api_schema_missing      # FP-TDD-005
+      - service_interface_missing  # FP-TDD-006
+
+  # =====================================================
+  # v2.0 DOCUMENTATION GATE
+  # =====================================================
+  documentation_gate:
+    # Enable documentation gate in VALIDATOR
+    enabled: true
+    
+    # Block if documentation missing (FP-069)
+    blocking: true
+    
+    # Required documentation checks
+    checks:
+      - module_docs_exist
+      - changelog_updated
+      - task_status_completed
+
+# ============================================================================
+# v2.0 HOOKS CONFIGURATION
+# ============================================================================
+
+hooks:
+  # Enable hooks system (opt-in)
+  enabled: false
+  
+  # Linter configuration
+  linter:
+    name: "{{LINTER}}"                        # phpstan, eslint, ruff, golint, etc.
+    command: "{{LINTER_COMMAND}}"             # e.g., "npm run lint", "vendor/bin/phpstan analyse"
+  
+  # Test runner configuration
+  test_runner:
+    name: "{{TEST_RUNNER}}"                   # phpunit, jest, pytest, go test, etc.
+    command: "{{TEST_COMMAND}}"               # e.g., "npm test", "pytest"
+  
+  # Container linter (for framework-specific)
+  container_lint:
+    enabled: false
+    command: "{{CONTAINER_LINT_COMMAND}}"     # e.g., "php bin/console lint:container"
+  
+  # Template linter
+  template_lint:
+    enabled: false
+    command: "{{TEMPLATE_LINT_COMMAND}}"      # e.g., "php bin/console lint:twig"
+
+# ============================================================================
+# v2.0 CURSOR RULES ENFORCEMENT
+# ============================================================================
+
+enforcement:
+  cursor_rules:
+    # Enable workflow enforcement rule
+    workflow_enforcement: true
+    
+    # Enable blocking conditions rule
+    blocking_conditions: true
+    
+    # Enable pre-commit checklist rule
+    pre_commit_checklist: true
+    
+    # Enable role boundaries rule
+    role_boundaries: true
+    
+    # Enable failure patterns critical rule
+    failure_patterns_critical: true
+    
+    # Enable UI browser validator enforcement (optional)
+    ui_browser_validator: false
+
+# ============================================================================
+# v2.0 WORKFLOW DEFINITIONS
+# ============================================================================
+
+workflows:
+  # Enable executable workflow definitions
+  executable_definitions: true
+  
+  # Workflow definitions location
+  location: "core/workflows/"
+
+# ============================================================================
+# v2.0 MODULAR ROLES
+# ============================================================================
+
+roles:
+  # Enable modular folder structure
+  modular_structure: true
+  
+  # Roles location
+  location: "core/roles/"
+  
+  # Enable OUTPUT_RULES.md enforcement
+  output_rules: true
+  
+  # Roles with SAFEGUARDS.md
+  safeguards:
+    - CODE_DOCUMENTATOR
 
 # ============================================================================
 # RESOURCE LIMITS
@@ -142,25 +322,27 @@ documentation:
     dangerous: "docs/DANGEROUS_OPERATIONS/**"
 
 # ============================================================================
-# WORKFLOW CONFIGURATION
+# WORKFLOW CONFIGURATION — v2.0 Enhanced
 # ============================================================================
 
 workflow:
-  # Roles to enable (default: all)
+  # Roles to enable (v2.0: 16 roles)
   enabled_roles:
     - EMERGENCY_ERROR
     - PLANNER
+    - AUDITOR                  # NEW v2.0
+    - TDD_GUIDE                # NEW v2.0
     - IMPLEMENTER
     - VALIDATOR
     - UI_INSPECTOR
     - DATA_SEMANTIC_VALIDATOR
     - UI_BROWSER_VALIDATOR
+    - UI_BROWSER_INSPECTOR     # NEW v2.0
     - FIXATOR
     - RE_VALIDATOR
     - ARCHITECT
     - CODE_DOCUMENTATOR
     - USER_DOCUMENTATOR
-    - JOB_OBSERVER
     - DOC_GUARD
   
   # Roles requiring special configuration
@@ -170,11 +352,11 @@ workflow:
       deprecated_jobs: []
 
 # ============================================================================
-# VALIDATION CONFIGURATION
+# VALIDATION CONFIGURATION — v2.0 Enhanced
 # ============================================================================
 
 validation:
-  # Failure patterns to check (by ID)
+  # Core failure patterns (FP-001 to FP-008)
   required_fp_checks:
     - FP-001   # Frontend assumes data presence
     - FP-002   # Non-deterministic mock data
@@ -205,3 +387,33 @@ validation:
     - FP-045   # Stale data after interaction
     - FP-046   # Console error
     - FP-047   # Network retry loop
+
+  # =====================================================
+  # v2.0 DATA SEMANTIC PATTERNS (FP-050 to FP-056)
+  # =====================================================
+  data_semantic_fp_checks:
+    - FP-050   # Misleading Metric Label
+    - FP-051   # Undefined Success Criteria
+    - FP-052   # Sample Size Without Warning
+    - FP-053   # Data Source Ambiguity
+    - FP-054   # API Structure Undocumented
+    - FP-055   # Task File Incomplete Generation
+    - FP-056   # Implementation Status Drift
+
+  # =====================================================
+  # v2.0 PROCESS PATTERNS (FP-057 to FP-069)
+  # =====================================================
+  process_fp_checks:
+    - FP-057   # Service Interface Not Verified
+    - FP-058   # Graceful Degradation Missing
+    - FP-059   # External API Fallback Missing
+    - FP-060   # ASCII Mockup Not Mapped
+    - FP-061   # Long Prompt Partial Read
+    - FP-062   # Third-Party Library Config
+    - FP-063   # Missing Runtime Verification
+    - FP-064   # Plan References Non-Existent Field
+    - FP-065   # Rate Limit Not Implemented
+    - FP-066   # Migration Column Unused
+    - FP-067   # Inherited Issue Undocumented
+    - FP-068   # TASK_INDEX Status Mismatch
+    - FP-069   # Documentation Task Incomplete

@@ -1,18 +1,11 @@
 AI PROJECT GOVERNANCE FRAMEWORK
-PROPRIETARY LICENSE — ALL RIGHTS RESERVED
+MIT LICENSE
 
-Copyright (c) 2026
-Author: Piotr Kwiatkowski
-Contact: peetero@proton.me
+Copyright (c) 2026 God_FatherAI
+Author & Contact: https://x.com/God_FatherAI
 
-This repository and all its contents, including but not limited to:
-- workflow definitions
-- governance rules
-- runtime guards
-- documentation structures
-- prompt templates
-- scripts and automation
-- directory layouts and concepts
+This project is licensed under the MIT License.
+See the LICENSE file in the project root for full license text.
 
 are the exclusive intellectual property of the Author.
 

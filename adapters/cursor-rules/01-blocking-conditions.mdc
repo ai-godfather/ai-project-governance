@@ -1,0 +1,118 @@
+# BLOCKING CONDITIONS — STOP IF ANY APPLIES
+
+> **Priority**: CRITICAL — agent MUST stop and resolve before proceeding  
+> **Version**: 2.0.0
+
+---
+
+## 🛑 PLANNER BLOCKS
+
+PLANNER MUST NOT proceed if:
+
+| Condition | FP-ID | Resolution |
+|-----------|-------|------------|
+| Tasks generated without user approval | — | Wait for approval |
+| V2/V3 plan without PREDECESSOR FEATURE ANALYSIS | FP-067 | Add section |
+| API endpoint without response structure example | FP-054 | Add API RESPONSE STRUCTURE |
+| UI metric without semantic definition | FP-050 | Add METRIC SEMANTIC DEFINITIONS |
+| Plan with migration without COLUMN USAGE MAP | FP-066 | Add mapping table |
+| Rate limiting in description without task | FP-065 | Add implementation task |
+
+---
+
+## 🛑 AUDITOR BLOCKS
+
+AUDITOR MUST issue FAIL verdict if:
+
+| Condition | FP-ID | Resolution |
+|-----------|-------|------------|
+| Task references non-existent entity field | FP-064 | Fix plan or task |
+| Generated task count ≠ planned task count | FP-055 | Regenerate tasks |
+| API Schema missing in plan | FP-054 | PLANNER must add |
+| Metric definitions missing in UI plan | FP-050 | PLANNER must add |
+| >10% coverage gap | — | Regenerate tasks |
+
+---
+
+## 🛑 VALIDATOR BLOCKS
+
+VALIDATOR MUST issue BLOCK if:
+
+| Condition | FP-ID | Resolution |
+|-----------|-------|------------|
+| TASK_INDEX status doesn't match code state | FP-068 | Update TASK_INDEX |
+| Documentation task incomplete | FP-069 | Complete docs first |
+| Migration column added but unused | FP-066 | Use column or remove |
+| Rate limiting specified but not implemented | FP-065 | Implement or update plan |
+
+---
+
+## 🛑 TDD_GUIDE BLOCKS
+
+TDD_GUIDE MUST BLOCK test creation if:
+
+| Condition | FP-ID | Resolution |
+|-----------|-------|------------|
+| No API RESPONSE STRUCTURE in plan | FP-054 | Request from PLANNER |
+| No METRIC SEMANTIC DEFINITIONS (for UI) | FP-050 | Request from PLANNER |
+
+---
+
+## 🛑 FIXATOR BLOCKS
+
+FIXATOR MUST REFUSE to fix if:
+
+| Condition | Reason | Resolution |
+|-----------|--------|------------|
+| ORIGIN_LAYER = FEATURE_PLAN + BLOCK severity | Plan is wrong | PLANNER must fix |
+| ORIGIN_LAYER = DATA_MODEL | Schema issue | ARCHITECT required |
+| Fix would change semantic intent | Scope creep | Reject, escalate |
+
+---
+
+## 🛑 IMPLEMENTER BLOCKS
+
+IMPLEMENTER MUST REFUSE to start if:
+
+| Condition | Resolution |
+|-----------|------------|
+| No plan found for prefix | Request `@workflow PLANNER` |
+| Multiple plans match prefix | Clarify with user |
+| AUDITOR verdict ≠ PASS | Request `@workflow AUDITOR` |
+| Tests exist and FAIL | Fix tests first (TDD mode) |
+
+---
+
+## 📋 BLOCK RESOLUTION FLOW
+
+```
+BLOCK detected
+        ↓
+Identify ORIGIN_LAYER
+        ↓
+┌─────────────────────────────────────┐
+│ FEATURE_PLAN → PLANNER fixes plan  │
+│ IMPLEMENTATION → FIXATOR fixes code │
+│ UI_PRESENTATION → FIXATOR fixes UI  │
+│ DATA_MODEL → ARCHITECT required     │
+│ EXTERNAL_DEPENDENCY → MONITOR only  │
+└─────────────────────────────────────┘
+        ↓
+After resolution → RE_VALIDATOR
+```
+
+---
+
+## ⚠️ WARNING CONDITIONS (Non-blocking)
+
+These issue warnings but don't stop work:
+
+| Condition | FP-ID | Action |
+|-----------|-------|--------|
+| Sample size < 30 in metrics | FP-052 | Add ⚠️ indicator in UI |
+| Data source ambiguous | FP-053 | Clarify in docs |
+| Stale documentation | FP-056 | Flag for CODE_DOCUMENTATOR |
+
+---
+
+**If ANY 🛑 BLOCK condition is met → STOP and resolve first**

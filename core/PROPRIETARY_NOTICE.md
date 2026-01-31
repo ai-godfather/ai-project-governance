@@ -1,16 +1,13 @@
 <!--
-CORE GOVERNANCE COMPONENT — PROPRIETARY
+AI Project Governance Framework
 
-Author: Piotr Kwiatkowski
-Contact: peetero@proton.me
-
-This file is part of a proprietary governance framework.
-NO LICENSE IS GRANTED for use, copying, or modification.
+Author & Contact: https://x.com/God_FatherAI
+License: MIT (see LICENSE file in project root)
 -->
 
-# ⚠️ Proprietary Content
+# 📦 Core Components
 
-This directory contains **core proprietary components** of the
+This directory contains **core components** of the
 AI Project Governance Framework.
 
 ## Contents
@@ -22,13 +19,12 @@ AI Project Governance Framework.
 - `/decisions/` — Decision tracking templates
 - `/dependencies/` — Dependency analysis templates
 
-## Legal Notice
+## License
 
-All files in this directory are the exclusive intellectual property
-of **Piotr Kwiatkowski**.
+All files in this directory are licensed under the **MIT License**.
 
-**Unauthorized use is strictly prohibited.**
+**Free to use, modify, and distribute** with attribution.
 
 ## Contact
 
-For licensing inquiries: **peetero@proton.me**
+For questions or support: **https://x.com/God_FatherAI**

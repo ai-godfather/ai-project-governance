@@ -1,50 +1,62 @@
 <!--
 AI Project Governance Framework
 
-Author: Piotr Kwiatkowski
-Contact: peetero@proton.me
-
-License: PROPRIETARY — ALL RIGHTS RESERVED
-This is a legal notice, not an instruction or workflow rule.
+Author & Contact: https://x.com/God_FatherAI
+License: MIT (see LICENSE file in project root)
 -->
 
 # AI Project Governance
 
-**Version**: 1.0.0  
-**Author**: Piotr Kwiatkowski  
-**Status**: Framework Complete (v1.0.0)  
-**License**: ⚠️ PROPRIETARY — ALL RIGHTS RESERVED
+**Version**: 2.0.0  
+**Author**: God_FatherAI (https://x.com/God_FatherAI)  
+**Status**: Framework Complete (v2.0.0)  
+**License**: MIT
 
 A project-agnostic AI governance framework for software development teams
 using AI coding assistants (Claude, GPT, Cursor, etc.).
 
+## What's New in v2.0.0
+
+| Feature | Description |
+|---------|-------------|
+| **16 Roles** | Added AUDITOR, TDD_GUIDE, UI_BROWSER_INSPECTOR |
+| **Two-Phase PLANNER** | User approval gate between plan and task generation |
+| **Quality Gate (AUDITOR)** | 15-dimension audit before implementation |
+| **TDD Support** | Optional RED phase test creation before implementation |
+| **Documentation Gate** | Blocking validation for missing docs (FP-069) |
+| **Cursor Rules** | 6 enforcement templates for `.cursor/rules/` |
+| **Workflow Definitions** | Executable workflow specs in `core/workflows/` |
+| **Modular Roles** | Folder-per-role structure with OUTPUT_RULES |
+| **20 New FPs** | FP-050 to FP-069 (Data Semantic + Process patterns) |
+
 ---
 
-## ⚠️ License & Usage
+## 📜 License
 
-> **THIS IS NOT OPEN SOURCE**
+This project is licensed under the **MIT License**.
 
-This repository is **proprietary software**.  
-No rights are granted to use, copy, modify, distribute, or deploy this framework.
+See the [LICENSE](LICENSE) file in the project root for full license text.
 
-The source code is provided for **evaluation purposes only**.
+### What This Means
 
 | Action | Status |
 |--------|--------|
 | View source code | ✅ Permitted |
-| Use in production | ❌ Requires written permission |
-| Use commercially | ❌ Requires written permission |
-| Use internally in organization | ❌ Requires written permission |
-| Modify or fork | ❌ Requires written permission |
-| Redistribute | ❌ Requires written permission |
+| Use in production | ✅ Permitted |
+| Use commercially | ✅ Permitted |
+| Use internally in organization | ✅ Permitted |
+| Modify or fork | ✅ Permitted |
+| Redistribute | ✅ Permitted (with attribution) |
+
+**Attribution Required**: Please credit God_FatherAI (https://x.com/God_FatherAI) when using this framework.
 | Train AI models | ❌ Prohibited |
 
-**To request permission or obtain a license:**
+**For questions or support:**
 
-**Author**: Piotr Kwiatkowski  
-**Contact**: peetero@proton.me
+**Author**: God_FatherAI  
+**Contact**: https://x.com/God_FatherAI
 
-See [LICENSE.txt](LICENSE.txt) for full legal terms.
+See [LICENSE](LICENSE) for full license terms.
 
 ---
 
@@ -67,10 +79,12 @@ See [LICENSE.txt](LICENSE.txt) for full legal terms.
 |------|------------|
 | **Framework** | This repository — the source of governance artifacts |
 | **Governance artifacts** | Files installed into your project (`.ai/`, `.cursorrules`, `AGENTS.md`, etc.) |
-| **Workflow system** | The set of 14 roles + guards living in `.ai/` after installation |
+| **Workflow system** | The set of 16 roles + guards living in `.ai/` after installation |
 | **Validation** | First-pass code review by VALIDATOR (static analysis, FP checks) |
 | **Inspection** | UI/data anomaly detection by UI_INSPECTOR, DATA_SEMANTIC_VALIDATOR |
 | **Verification** | Confirming fixes resolved issues (RE_VALIDATOR) |
+| **Quality Gate** | AUDITOR verification between PLANNER and IMPLEMENTER (v2.0) |
+| **TDD CHECK** | Mandatory test verification before implementation (v2.0) |
 | **`@workflow`** | A command issued in IDE/agent chat (Cursor), **NOT a shell command** |
 
 ---
@@ -79,11 +93,16 @@ See [LICENSE.txt](LICENSE.txt) for full legal terms.
 
 This framework provides:
 
-- **14 specialized AI roles** with strict boundaries
+- **16 specialized AI roles** with strict boundaries (v2.0: +AUDITOR, +TDD_GUIDE, +UI_BROWSER_INSPECTOR)
+- **Two-Phase PLANNER** with user approval gate (v2.0)
+- **Quality Gate (AUDITOR)** with 15-dimension audit (v2.0)
+- **TDD Support** with RED phase test creation (v2.0)
 - **Workflow contracts** for validation, fixing, and documentation
 - **Pre-execution guards** preventing common failure modes
+- **109 failure patterns** (v2.0: +20 new FP-050 to FP-069)
 - **Error traceability** from symptom to root cause
-- **Documentation governance** keeping docs in sync with code
+- **Documentation governance** with blocking gate (v2.0)
+- **Cursor rules enforcement** layer (v2.0)
 - **Task management** with Task Magic system
 - **Bootstrap tooling** for new projects starting from zero
 
@@ -140,22 +159,40 @@ This framework **DOES NOT**:
 
 ## Roles Overview
 
-| # | Role | Purpose | Mode |
-|---|------|---------|------|
-| 0 | EMERGENCY_ERROR | Production incidents | Orchestrator |
-| 1 | PLANNER | Feature planning | Read-Only |
-| 2 | IMPLEMENTER | Code execution | Write (scoped) |
-| 3 | VALIDATOR | First-pass validation | Read-Only |
-| 4 | UI_INSPECTOR | Visual anomalies | Read-Only |
-| 5 | DATA_SEMANTIC_VALIDATOR | Data integrity | Read-Only |
-| 6 | UI_BROWSER_VALIDATOR | Runtime verification | Execution |
-| 7 | FIXATOR | Issue remediation | Write (scoped) |
-| 8 | RE_VALIDATOR | Fix verification | Read-Only |
-| 9 | ARCHITECT | ADR creation | Read-Only |
-| 10 | CODE_DOCUMENTATOR | Technical docs | Read-Only |
-| 11 | USER_DOCUMENTATOR | User docs | Read-Only |
-| 12 | JOB_OBSERVER | Job operations (SRE) | Operational |
-| 13 | DOC_GUARD | Doc governance | Advisory |
+| # | Role | Purpose | Mode | New in v2.0 |
+|---|------|---------|------|-------------|
+| 1 | EMERGENCY_ERROR | Production incidents | Orchestrator | — |
+| 2 | PLANNER | Feature planning (Two-Phase) | Read-Only | Enhanced |
+| 3 | **AUDITOR** | Quality Gate (15 dimensions) | Read-Only | **NEW** |
+| 4 | **TDD_GUIDE** | RED phase test creation | Write (tests) | **NEW** |
+| 5 | IMPLEMENTER | Code execution (TDD CHECK) | Write (scoped) | Enhanced |
+| 6 | VALIDATOR | First-pass validation | Read-Only | Enhanced |
+| 7 | UI_INSPECTOR | Visual anomalies | Read-Only | — |
+| 8 | DATA_SEMANTIC_VALIDATOR | Data integrity | Read-Only | — |
+| 9 | UI_BROWSER_VALIDATOR | Runtime verification (v3.0) | Execution | Enhanced |
+| 10 | **UI_BROWSER_INSPECTOR** | E2E test generation | Read+Execute | **NEW** |
+| 11 | FIXATOR | Issue remediation | Write (scoped) | — |
+| 12 | RE_VALIDATOR | Fix verification | Read-Only | — |
+| 13 | ARCHITECT | ADR creation | Read-Only | — |
+| 14 | CODE_DOCUMENTATOR | Technical docs | Write (docs) | — |
+| 15 | USER_DOCUMENTATOR | User docs | Write (docs) | — |
+| 16 | DOC_GUARD | Doc governance | Advisory | — |
+
+### v2.0 Execution Order
+
+```
+PLANNER (Phase 1) → [USER APPROVAL] → PLANNER (Phase 2)
+              ↓
+          [AUDITOR] ◄── Quality Gate (NEW)
+              ↓
+         [TDD_GUIDE] ◄── Optional RED phase (NEW)
+              ↓
+         IMPLEMENTER ◄── TDD CHECK mandatory
+              ↓
+          VALIDATOR ◄── Documentation Gate (NEW)
+              ↓
+     FIXATOR → RE_VALIDATOR (if BLOCK)
+```
 
 ---
 
@@ -316,8 +353,15 @@ See [docs/guides/CONFIGURATION.md](docs/guides/CONFIGURATION.md) for all options
 > Type it in Cursor's AI chat, not in terminal.
 
 ```
-# Plan a feature
+# Plan a feature (Two-Phase)
 @workflow PLANNER
+# → Creates plan → Waits for approval → Generates tasks
+
+# Audit tasks before implementation (NEW v2.0)
+@workflow AUDITOR FEATURE_001
+
+# Create failing tests (Optional, NEW v2.0)
+@workflow TDD_GUIDE TASK_ID
 
 # Implement from plan
 @workflow IMPLEMENTER FEATURE_001
@@ -327,6 +371,9 @@ See [docs/guides/CONFIGURATION.md](docs/guides/CONFIGURATION.md) for all options
 @workflow UI_INSPECTOR
 @workflow DATA_SEMANTIC_VALIDATOR
 @workflow UI_BROWSER_VALIDATOR
+
+# Generate E2E tests (NEW v2.0)
+@workflow UI_BROWSER_INSPECTOR FEATURE_001
 
 # Fix issues
 @workflow FIXATOR
@@ -355,15 +402,16 @@ See [docs/guides/CONFIGURATION.md](docs/guides/CONFIGURATION.md) for all options
 
 Not every change requires full validation chain:
 
-| Change Type | Required Workflows |
-|-------------|-------------------|
-| New feature | PLANNER → IMPLEMENTER → VALIDATOR → FIXATOR → RE_VALIDATOR |
+| Change Type | Required Workflows (v2.0) |
+|-------------|---------------------------|
+| New feature | PLANNER → AUDITOR → [TDD_GUIDE] → IMPLEMENTER → VALIDATOR → [FIXATOR → RE_VALIDATOR] |
 | UI changes | + UI_INSPECTOR, DATA_SEMANTIC_VALIDATOR, UI_BROWSER_VALIDATOR |
-| Backend only | VALIDATOR (UI validators optional) |
+| Backend only | AUDITOR → IMPLEMENTER → VALIDATOR |
 | Bug fix | VALIDATOR → FIXATOR → RE_VALIDATOR |
 | Production incident | EMERGENCY_ERROR → (if BLOCK) FIXATOR → RE_VALIDATOR |
 | Documentation | CODE_DOCUMENTATOR or USER_DOCUMENTATOR |
 | New job / dangerous op | + DOC_GUARD (hard blocker if docs missing) |
+| E2E test generation | UI_BROWSER_INSPECTOR → UI_BROWSER_VALIDATOR |
 
 ---
 
@@ -570,7 +618,7 @@ project-specific details.
 
 - **Documentation**: See `docs/guides/`
 - **Bootstrap**: See `bootstrap/BOOTSTRAP_FLOW.md`
-- **Licensing inquiries**: peetero@proton.me
+- **Questions or support**: https://x.com/God_FatherAI
 
 ---
 
@@ -586,20 +634,21 @@ project-specific details.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.0.0 | 2026-01-31 | Added AUDITOR, TDD_GUIDE, UI_BROWSER_INSPECTOR; Two-Phase PLANNER; Documentation Gate; Cursor Rules; Modular Roles; FP-050 to FP-069 |
 | 1.0.0 | 2026-01-01 | Initial release |
 
 ---
 
 ## Legal
 
-**Copyright (c) 2026 Piotr Kwiatkowski. All rights reserved.**
+**Copyright (c) 2026 God_FatherAI.**
 
-This repository is proprietary software. See [LICENSE.txt](LICENSE.txt) and [NOTICE.md](NOTICE.md).
+This project is licensed under the MIT License. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
 
-Unauthorized use may result in legal action.
+Free to use, modify, and distribute with attribution.
 
 ---
 
-**Interested in licensing?**
+**Questions or feedback?**
 
-Contact: **peetero@proton.me**
+Contact: **https://x.com/God_FatherAI**

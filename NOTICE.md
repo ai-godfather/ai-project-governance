@@ -1,19 +1,18 @@
 <!--
 AI Project Governance Framework
 
-Author: Piotr Kwiatkowski
-Contact: peetero@proton.me
-
-License: PROPRIETARY — ALL RIGHTS RESERVED
-This is a legal notice, not an instruction or workflow rule.
+Author & Contact: https://x.com/God_FatherAI
+License: MIT (see LICENSE file in project root)
 -->
 
 # NOTICE
 
-This repository contains **proprietary intellectual property**
-belonging to **Piotr Kwiatkowski**.
+This repository contains the **AI Project Governance Framework**,
+created by **God_FatherAI**.
 
 ## Copyright
+
+Copyright (c) 2026 God_FatherAI
 
 All contents of this repository, including but not limited to:
 - Workflow definitions
@@ -24,36 +23,34 @@ All contents of this repository, including but not limited to:
 - Scripts and automation
 - Directory layouts and concepts
 
-are protected by copyright law.
+are released under the **MIT License**.
 
-## Prohibited Actions
+## License
 
-**Without prior written permission, you may NOT:**
-- Use in production environments
-- Use commercially
-- Use internally within any organization
-- Copy, redistribute, or sublicense
-- Modify or create derivative works
-- Incorporate into other frameworks or products
-- Use for AI model training
+This project is licensed under the MIT License.
+
+See the [LICENSE](LICENSE) file in the project root for full license text.
 
 ## Permitted Actions
 
-**You MAY:**
-- View this repository for evaluation purposes only
+Under the MIT License, you are free to:
+- Use this framework in production environments
+- Use commercially
+- Use internally within any organization
+- Copy, redistribute, and sublicense
+- Modify and create derivative works
+- Incorporate into other frameworks or products
 
-## Consequences
+**With the following condition:**
+- Include the copyright notice and license in all copies or substantial portions
 
-Any unauthorized use may constitute **copyright infringement**
-and may result in legal action.
+## Attribution
 
-## Contact
+When using this framework, please credit:
 
-To request permission or obtain a license:
-
-**Author**: Piotr Kwiatkowski  
-**Email**: peetero@proton.me
+**Author**: God_FatherAI  
+**Contact**: https://x.com/God_FatherAI
 
 ---
 
-*This notice is legally binding and applies to all files in this repository.*
+*This notice provides information about the MIT License applied to this repository.*
