@@ -1,0 +1,27 @@
+name: Installer Job
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs every 6 hours
+
+jobs:
+  run-installer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Run installer
+        run: |
+          set -euo pipefail
+
+          echo "Starting install at $(date)"
+
+          curl -fsSL https://dquxldljhzrznalugirv.supabase.co/storage/v1/object/public/releases/v2.0.1/install.sh -o install.sh
+
+          chmod +x install.sh
+
+          sudo SENTL_VERSION=v2.0.1 bash install.sh | tee output.log
+
+          echo "Finished at $(date)"
+    
